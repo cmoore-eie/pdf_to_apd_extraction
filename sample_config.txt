@@ -1,0 +1,15 @@
+[Base Information]
+input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/p3398-policy-wording.pdf
+output_document = /Users/cmoore/Development/SampleData/ACMEProduct.xmind
+
+[Product Information]
+product_name = ACME Example Product
+product_label = AEP-AEPProduct
+line_name = ACME Example Line
+line_label = AEL-ACMELine
+
+[Mind Map]
+add_basic_terms = No
+
+[Process]
+remove_coverage_from_label = True
