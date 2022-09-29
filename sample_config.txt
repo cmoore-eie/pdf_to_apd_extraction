@@ -1,8 +1,10 @@
 [Base Information]
-input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/p3398-policy-wording.pdf
+input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/BCAAHome-Condo-Tenant-Comprehensive.pdf
 output_document = /Users/cmoore/Development/SampleData/ACMEProduct.xmind
 
 [Product Information]
+# product_shape = Home / Commercial Building / Private Motor / Other / SME
+product_shape = Private Motor
 product_name = ACME Example Product
 product_label = AEP-AEPProduct
 line_name = ACME Example Line

@@ -1,21 +1,15 @@
 import shutil
-
+from datetime import date
+import HomeShape as home_shape
 import xmind
-from xmind.core.const import TOPIC_DETACHED
-from xmind.core.markerref import MarkerId
-from xmind.core.topic import TopicElement
 
-marker_coverage = 'gw_coverage'
-marker_product = 'gw_product'
-marker_line = 'gw_line'
-marker_risk_object = 'gw_risk_object'
-marker_clause_category = 'gw_clause_category'
-marker_money = 'gw_money'
+from Constants import product_shapes, markers
+import PrivateMotorShape as private_motor_shape
 
 standard_term_types = {
-    'Sum Insured': marker_money,
-    'Limit': marker_money,
-    'Deductible': marker_money
+    'Sum Insured': markers['money'],
+    'Limit': markers['money'],
+    'Deductible': markers['money']
 }
 
 
@@ -30,18 +24,101 @@ def standard_terms(coverage, config_dict):
         term.addMarker(standard_term_types[key])
 
 
+def apply_product_shape(line, coverages, config_dict):
+    product_shape = config_dict['Product Information']['product_shape']
+    if product_shape.lower() not in product_shapes:
+        product_shape = 'other'
+
+    if product_shape.lower() == 'home':
+        home_shape.apply_shape(line, coverages, config_dict)
+        return
+    if product_shape.lower() == 'private motor':
+        private_motor_shape.apply_shape(line, coverages, config_dict)
+        return
+
+    apply_standard_product_shape(line, coverages, config_dict)
+
+
+def apply_standard_product_shape(line, coverages, config_dict):
+    risk_object = line.addSubTopic()
+    risk_object.setTitle("Risk Object")
+    risk_object.addMarker(markers['risk_object'])
+
+    risk_object_notes = risk_object.addSubTopic()
+    risk_object_notes.setTitle("Notes")
+    risk_object_notes.addMarker(markers['info'])
+
+    risk_object_attribute = risk_object.addSubTopic()
+    risk_object_attribute.setTitle("Attributes")
+
+    risk_object_coverage = risk_object.addSubTopic()
+    risk_object_coverage.setTitle("Coverages")
+    risk_object_coverage_category = risk_object_coverage.addSubTopic()
+    risk_object_coverage_category.setTitle("Standard Coverages")
+    risk_object_coverage_category.addMarker(markers['clause_category'])
+
+    risk_object_exclusions = risk_object.addSubTopic()
+    risk_object_exclusions.setTitle("Exclusions")
+    risk_object_exclusions_category = risk_object_exclusions.addSubTopic()
+    risk_object_exclusions_category.setTitle("Standard Exclusions")
+    risk_object_exclusions_category.addMarker(markers['clause_category'])
+
+    risk_object_conditions = risk_object.addSubTopic()
+    risk_object_conditions.setTitle("Conditions")
+    risk_object_conditions_category = risk_object_conditions.addSubTopic()
+    risk_object_conditions_category.setTitle("Standard Conditions")
+    risk_object_conditions_category.addMarker(markers['clause_category'])
+
+    for coverage in coverages:
+        new_coverage = risk_object_coverage_category.addSubTopic()
+        new_coverage.setTitle(coverages[coverage])
+        new_coverage.addMarker(markers['coverage'])
+        standard_terms(new_coverage, config_dict)
+
+
+def apply_about(line):
+    line_about = line.addSubTopic()
+    line_about.setTitle("About")
+    line_about.addMarker(markers['info'])
+    line_about_version = line_about.addSubTopic()
+    line_about_version.setTitle('Version')
+    info = line_about_version.addSubTopic()
+    info.setTitle('1.0')
+
+    line_about_date = line_about.addSubTopic()
+    line_about_date.setTitle('Date')
+    info = line_about_date.addSubTopic()
+    info.setTitle(date.today().isoformat())
+
+    line_about_author = line_about.addSubTopic()
+    line_about_author.setTitle('Author')
+    info = line_about_author.addSubTopic()
+    info.setTitle('A very smart application')
+
+    line_about_description = line_about.addSubTopic()
+    line_about_description.setTitle('Description')
+    info = line_about_description.addSubTopic()
+    info.setTitle('Short information about the product')
+
+
 def build_sheet(sheet1, coverages, config_dict):
     sheet1.setTitle("Product")
 
     product = sheet1.getRootTopic()
     product.setTitle(config_dict['Product Information']['product_name'])
     product.addLabel(config_dict['Product Information']['product_label'])
-    product.addMarker(marker_product)
+    product.addMarker(markers['product'])
 
     line = product.addSubTopic()
     line.setTitle(config_dict['Product Information']['line_name'])
     line.addLabel(config_dict['Product Information']['line_label'])
-    line.addMarker(marker_line)
+    line.addMarker(markers['line'])
+
+    apply_about(line)
+
+    line_notes = line.addSubTopic()
+    line_notes.setTitle("Notes")
+    line_notes.addMarker(markers['info'])
 
     line_attribute = line.addSubTopic()
     line_attribute.setTitle("Attributes")
@@ -55,36 +132,7 @@ def build_sheet(sheet1, coverages, config_dict):
     line_conditions = line.addSubTopic()
     line_conditions.setTitle("Conditions")
 
-    risk_object = line.addSubTopic()
-    risk_object.setTitle("Risk Object")
-    risk_object.addMarker(marker_risk_object)
-
-    risk_object_attribute = risk_object.addSubTopic()
-    risk_object_attribute.setTitle("Attributes")
-
-    risk_object_coverage = risk_object.addSubTopic()
-    risk_object_coverage.setTitle("Coverages")
-    risk_object_coverage_category = risk_object_coverage.addSubTopic()
-    risk_object_coverage_category.setTitle("Standard Coverages")
-    risk_object_coverage_category.addMarker(marker_clause_category)
-
-    risk_object_exclusions = risk_object.addSubTopic()
-    risk_object_exclusions.setTitle("Exclusions")
-    risk_object_exclusions_category = risk_object_exclusions.addSubTopic()
-    risk_object_exclusions_category.setTitle("Standard Exclusions")
-    risk_object_exclusions_category.addMarker(marker_clause_category)
-
-    risk_object_conditions = risk_object.addSubTopic()
-    risk_object_conditions.setTitle("Conditions")
-    risk_object_conditions_category = risk_object_conditions.addSubTopic()
-    risk_object_conditions_category.setTitle("Standard Exclusions")
-    risk_object_conditions_category.addMarker(marker_clause_category)
-
-    for coverage in coverages:
-        new_coverage = risk_object_coverage_category.addSubTopic()
-        new_coverage.setTitle(coverages[coverage])
-        new_coverage.addMarker(marker_coverage)
-        standard_terms(new_coverage, config_dict)
+    apply_product_shape(line, coverages, config_dict)
 
 
 def generate_xmind(coverages, config_dict):
@@ -94,8 +142,4 @@ def generate_xmind(coverages, config_dict):
     sheet1 = workbook.getPrimarySheet()
     build_sheet(sheet1, coverages, config_dict)
 
-    # topic = sheet1.getRootTopic().getTopics()
-    # remove_node = sheet1.getRootTopic().getChildNodesByTagName('children')
-    # sheet1.getRootTopic().removeChild(remove_node)
-    # gen_sheet2(workbook, sheet1)
     xmind.save(workbook, path=output_file)
