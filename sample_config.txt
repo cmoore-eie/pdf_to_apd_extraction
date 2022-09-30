@@ -1,5 +1,5 @@
 [Base Information]
-input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/beazley-home-insurance-wording.pdf
+# input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/BCAAHome-Condo-Tenant-Comprehensive.pdf
 output_document = /Users/cmoore/Development/SampleData/ACMEProduct.xmind
 
 [Product Information]

@@ -1,5 +1,5 @@
-from RulesHome import home_rules
-from RulesMotor import motor_rules
+from rules_home import home_rules
+from rules_motor import motor_rules
 
 one = ['personal', 'accident']
 custom_rules = dict()
@@ -40,17 +40,17 @@ def build_matcher_rules(matcher, config_dict):
             matcher.add(key.upper(), [pattern], on_match=None)
 
     if product_shape.lower() == 'motor':
-      for key in motor_rules:
-        pattern = motor_rules[key]
-        if type(pattern[0]) is list:
-            matcher.add(key.upper(), pattern, on_match=None)
-        else:
-            matcher.add(key.upper(), [pattern], on_match=None)
+        for key in motor_rules:
+            pattern = motor_rules[key]
+            if type(pattern[0]) is list:
+                matcher.add(key.upper(), pattern, on_match=None)
+            else:
+                matcher.add(key.upper(), [pattern], on_match=None)
 
     if product_shape.lower() == 'home':
-      for key in home_rules:
-        pattern = home_rules[key]
-        if type(pattern[0]) is list:
-            matcher.add(key.upper(), pattern, on_match=None)
-        else:
-            matcher.add(key.upper(), [pattern], on_match=None)
+        for key in home_rules:
+            pattern = home_rules[key]
+            if type(pattern[0]) is list:
+                matcher.add(key.upper(), pattern, on_match=None)
+            else:
+                matcher.add(key.upper(), [pattern], on_match=None)

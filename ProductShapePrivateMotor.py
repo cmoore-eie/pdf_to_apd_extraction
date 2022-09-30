@@ -1,6 +1,6 @@
-from Constants import markers
+from constants import markers
 from ProductShapes import shape_to_dict
-from Utility import add_xmind_attributes, add_xmind_coverages
+from utility import add_xmind_attributes, add_xmind_coverages
 
 
 def apply_shape(line, coverages, config_dict):

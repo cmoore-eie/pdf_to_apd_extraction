@@ -1,5 +1,5 @@
 #
-# When coverage words are to be removed it will check against this list and not add the name to the lable of the
+# When coverage words are to be removed it will check against this list and not add the name to the label of the
 # topic
 #
 coverage_words = ['cover', 'coverage']

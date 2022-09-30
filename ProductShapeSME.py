@@ -1,5 +1,5 @@
-from Constants import markers, dropdown
-from Utility import add_xmind_attributes, add_xmind_coverages
+from constants import markers
+from utility import add_xmind_attributes, add_xmind_coverages
 
 
 def apply_shape(line, coverages, config_dict):

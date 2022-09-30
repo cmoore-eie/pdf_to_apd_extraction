@@ -1,5 +1,6 @@
 from ProductShapes import shape_to_dict, dropdown_to_dict, is_related
-from Constants import markers
+from constants import markers
+
 
 #
 # Attributes where there is not a category are added first, then the categories added and
@@ -17,6 +18,7 @@ def add_xmind_attributes(attributes, config_dict):
         if 'CATEGORY' in attribute:
             if not (is_related(shape_dict, attribute['NAME'])):
                 add_attribute(attribute, attributes, shape_dict, question_category_topic)
+
 
 #
 # Added the question categories
@@ -51,11 +53,11 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
         else:
             dropdown_name = attribute['NAME']
         dropdown_data = dropdown_to_dict(dropdown_name)
-        for type in dropdown_data:
+        for dropdown_value in dropdown_data:
             item_option = item.addSubTopic()
-            item_option.setTitle(type)
+            item_option.setTitle(dropdown_value)
             item_option.addMarker(markers['text'])
-            extract_related(shape_dict, attribute['NAME'], type, item_option, question_category_topic)
+            extract_related(shape_dict, attribute['NAME'], dropdown_value, item_option)
 
 
 def add_xmind_coverages(coverages, topic):
@@ -65,7 +67,7 @@ def add_xmind_coverages(coverages, topic):
         new_coverage.addMarker(markers['coverage'])
 
 
-def extract_related(shape_dict, parent, link, topic, question_category_topic):
+def extract_related(shape_dict, parent, link, topic):
     if 'Related' not in shape_dict.keys():
         return
     related = shape_dict['Related']
@@ -75,3 +77,8 @@ def extract_related(shape_dict, parent, link, topic, question_category_topic):
             for attribute in attributes:
                 if attribute['NAME'] == relationship['CHILD']:
                     add_attribute(attribute, topic, shape_dict)
+
+
+def wise_monkey_says(message):
+    to_say = f'Wise Monkey has spoken - "{message}"'
+    print(to_say)

@@ -28,14 +28,13 @@ def dropdown_to_dict(dropdown_name):
 
 #
 # if the child is part of a defined relationship it will be created when the dropdown values of the parent are
-# processed, otherwise it needs to be ignored. This function retuen False if the child is not related otherwise
+# processed, otherwise it needs to be ignored. This function returns False if the child is not related otherwise
 # it will return True
 #
 def is_related(shape_dict, child):
     if 'Related' not in shape_dict.keys():
         return False
     related = shape_dict['Related']
-    attributes = shape_dict['Attributes']
     for relationship in related:
         if relationship['CHILD'] == child:
             return True
