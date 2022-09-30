@@ -4,7 +4,7 @@ output_document = /Users/cmoore/Development/SampleData/ACMEProduct.xmind
 
 [Product Information]
 # product_shape = Home / Commercial Building / Private Motor / Other / SME
-product_shape = Home
+product_shape = Private Motor
 product_name = ACME Example Product
 product_label = AEP-AEPProduct
 line_name = ACME Example Line

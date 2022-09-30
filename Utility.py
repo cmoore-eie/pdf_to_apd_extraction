@@ -1,5 +1,5 @@
-from ProductShapes import shape_to_dict
-from Constants import markers, dropdown
+from ProductShapes import shape_to_dict, dropdown_to_dict
+from Constants import markers
 
 
 def add_xmind_attributes(attributes, config_dict):
@@ -16,7 +16,8 @@ def add_xmind_attributes(attributes, config_dict):
                 dropdown_name = attribute['LIST']
             else:
                 dropdown_name = attribute['NAME']
-            for type in dropdown[dropdown_name]:
+            dropdown_data = dropdown_to_dict(dropdown_name)
+            for type in dropdown_data:
                 item_option = item.addSubTopic()
                 item_option.setTitle(type)
                 item_option.addMarker(markers['text'])

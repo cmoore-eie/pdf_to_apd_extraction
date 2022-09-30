@@ -1,4 +1,4 @@
-from Constants import markers, dropdown
+from Constants import markers
 from Utility import add_xmind_attributes, add_xmind_coverages
 
 
