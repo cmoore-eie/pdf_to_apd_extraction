@@ -1,0 +1,25 @@
+{
+  "Attributes": [
+    {"NAME": "Structure Type", "TYPE": "dropdown"},
+    {"NAME": "Number Bedrooms", "TYPE" : "dropdown"},
+    {"NAME": "Number Rooms", "TYPE" : "dropdown"},
+    {"NAME": "Basement", "TYPE": "boolean"},
+    {"NAME": "Swimming Pool", "TYPE": "boolean"},
+    {"NAME": "When Built", "TYPE": "number"},
+    {"NAME": "Wall Construction", "TYPE": "dropdown"},
+    {"NAME": "Roof Construction", "TYPE": "dropdown"},
+    {"NAME": "Who Occupies the Property", "TYPE": "dropdown", "LIST": "Occupancy", "LABEL": "Occupancy"},
+    {"NAME": "How long is the Property normally occupied", "TYPE": "dropdown", "LIST": "Occupied", "LABEL": "Occupied"},
+    {"NAME": "What type of locks are the majority of external doors fitted with", "TYPE": "text", "LABEL": "DoorType"},
+    {"NAME": "Are all accessible windows, fanlights and skylights fitted with key operated locks?", "TYPE": "boolean", "LABEL":  "Window Locks"},
+    {"NAME": "Do you have CCTV at the property to be insured", "TYPE": "dropdown", "LIST": "Yes No", "LABEL": "CCTV"},
+    {"NAME": "Does the CCTV system have remote internet monitoring?", "TYPE": "boolean", "LABEL": "CCTVMonitoring"},
+    {"NAME": "Which areas are covered", "TYPE": "text", "LABEL": "CCTVAreaCovered"},
+    {"NAME": "Is there an intruder alarm in full and effective operation?", "TYPE": "dropdown", "LIST": "Yes No", "LABEL": "Alarm"},
+    {"NAME": "Is it maintained under contract by a registered installer?", "TYPE": "boolean", "LABEL": "AlarmInstallerMaintained"},
+    {"NAME": "Is there a police response or professional key holder response provided by the system?", "TYPE": "boolean", "LABEL": "AlarmResponse"},
+    {"NAME": "Have any of the buildings at the home, including the outbuildings:Suffered any structural damage, structural repair or underpinning?", "TYPE": "boolean", "LABEL": "StructuralRepair"},
+    {"NAME": "Have any of the buildings at the home, including the outbuildings:Any signs of internal or external cracks?", "TYPE": "boolean", "LABEL": "Cracking"},
+    {"NAME": "Have any of the buildings at the home, including the outbuildings: Been monitored for subsidence or movement?", "TYPE": "boolean", "LABEL": "Subsidence"}
+  ]
+}

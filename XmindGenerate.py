@@ -1,10 +1,9 @@
 import shutil
 from datetime import date
-import HomeShape as home_shape
 import xmind
-
-from Constants import product_shapes, markers
-import PrivateMotorShape as private_motor_shape
+from Constants import markers
+import ProductShapePrivateMotor as product_shape_private_motor
+import ProductShapeHome as product_shape_home
 
 standard_term_types = {
     'Sum Insured': markers['money'],
@@ -26,14 +25,12 @@ def standard_terms(coverage, config_dict):
 
 def apply_product_shape(line, coverages, config_dict):
     product_shape = config_dict['Product Information']['product_shape']
-    if product_shape.lower() not in product_shapes:
-        product_shape = 'other'
 
     if product_shape.lower() == 'home':
-        home_shape.apply_shape(line, coverages, config_dict)
+        product_shape_home.apply_shape(line, coverages, config_dict)
         return
     if product_shape.lower() == 'private motor':
-        private_motor_shape.apply_shape(line, coverages, config_dict)
+        product_shape_private_motor.apply_shape(line, coverages, config_dict)
         return
 
     apply_standard_product_shape(line, coverages, config_dict)

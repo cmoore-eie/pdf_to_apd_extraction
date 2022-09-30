@@ -61,10 +61,14 @@ def process(config_dict):
 
     doc = read_document(nlp, config_dict)
 
-    # for token in doc:
-    #     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_,
-    #           token.shape_, token.is_alpha, token.is_stop, token.is_title, token.is_sent_start,
-    #           token.morph, token.has_dep(), token.right_edge.text)
+    output_tokens = config_dict['Process']['output_tokens'].lower()
+    if output_tokens == 'yes' or output_tokens == 'true':
+        with open(config_dict['Process']['token_file'], 'w') as file:
+            for token in doc:
+                line = f'{token.text} | {token.lemma_} | {token.pos_} | {token.tag_} | {token.dep_} | ' \
+                       f'{token.shape_} | {token.is_alpha} | {token.is_stop} |  {token.is_title} | ' \
+                       f'{token.is_sent_start} | {token.morph} | {token.has_dep()} | {token.right_edge.text} \n'
+                file.write(line)
 
     coverages = apply_rules(nlp, doc, config_dict)
     print('*** Generating Mind Map ***')

@@ -5,60 +5,6 @@
 coverage_words = ['cover', 'coverage']
 
 #
-# Product Shapes dictate what additional attributes are needed to be added by default
-#
-product_shapes = dict()
-product_shapes['other'] = []
-product_shapes['home'] = [{'NAME': 'Structure Type', 'TYPE': 'dropdown'},
-                          {'NAME': 'Number Bedrooms', 'TYPE' : 'dropdown'},
-                          {'NAME': 'Number Rooms', 'TYPE' : 'dropdown'},
-                          {'NAME': 'Basement', 'TYPE': 'boolean'},
-                          {'NAME': 'Swimming Pool', 'TYPE': 'boolean'},
-                          {'NAME': 'When Built', 'TYPE': 'number'},
-                          {'NAME': 'Wall Construction', 'TYPE': 'dropdown'},
-                          {'NAME': 'Roof Construction', 'TYPE': 'dropdown'},
-                          {'NAME': 'Who Occupies the Property', 'TYPE': 'dropdown', 'LIST': 'Occupancy'},
-                          {'NAME': 'How long is the Property normally occupied', 'TYPE': 'dropdown', 'LIST': 'Occupied'},
-                          {'NAME': 'What type of locks are the majority of external doors fitted with', 'TYPE': 'text'},
-                          {'NAME': 'Are all accessible windows, fanlights and skylights fitted with key operated locks?', 'TYPE': 'boolean'},
-                          {'NAME': 'Do you have CCTV at the property to be insured', 'TYPE': 'dropdown', 'LIST': 'Yes No'},
-                          {'NAME': 'Does the CCTV system have remote internet monitoring?', 'TYPE': 'boolean'},
-                          {'NAME': 'Which areas are covered', 'TYPE': 'text'},
-                          {'NAME': 'Is there an intruder alarm in full and effective operation?', 'TYPE': 'dropdown', 'LIST': 'Yes No'},
-                          {'NAME': 'Is it maintained under contract by a registered installer?', 'TYPE': 'boolean'},
-                          {'NAME': 'Is there a police response or professional key holder response provided by the system?', 'TYPE': 'boolean'},
-                          {'NAME': '"Have any of the buildings at the home, including the outbuildings:Suffered any structural damage, structural repair or underpinning?"', 'TYPE': 'boolean'},
-                          {'NAME': '"Have any of the buildings at the home, including the outbuildings:Any signs of internal or external cracks?', 'TYPE': 'boolean'},
-                          {'NAME': '"Have any of the buildings at the home, including the outbuildings: Been monitored for subsidence or movement?', 'TYPE': 'boolean'}]
-
-product_shapes['private motor'] = [{'NAME': 'Address', 'TYPE': 'location'},
-                                   {'NAME': 'Vehicle Type', 'TYPE': 'dropdown'},
-                                   {'NAME': 'Registration Plate', 'TYPE': 'text'},
-                                   {'NAME': 'VIN Number', 'TYPE': 'text'},
-                                   {'NAME': 'Make', 'TYPE': 'text'},
-                                   {'NAME': 'Model', 'TYPE': 'text'},
-                                   {'NAME': 'Engine Type', 'TYPE': 'text'},
-                                   {'NAME': 'Power - KW', 'TYPE': 'number'},
-                                   {'NAME': 'Vehicle Weight', 'TYPE': 'number'},
-                                   {'NAME': 'Year of First Registration', 'TYPE': 'date_time'},
-                                   {'NAME': 'Usage', 'TYPE': 'dropdown', 'LIST': 'Vehicle Usage'},
-                                   {'NAME': 'Engine Capacity CC', 'TYPE': 'number'},
-                                   {'NAME': 'Value of Vehicle', 'TYPE': 'money'},
-                                   {'NAME': 'Torque ', 'TYPE': 'money'},
-                                   {'NAME': 'Modification', 'TYPE': 'boolean'},
-                                   {'NAME': 'Annual Km', 'TYPE': 'number'},
-                                   {'NAME': 'Liability Bonus Malus', 'TYPE': 'text'},
-                                   {'NAME': 'Kasko Bonus Malus', 'TYPE': 'text'},
-                                   {'NAME': 'Damage Deductible', 'TYPE': 'money'},
-                                   {'NAME': 'Is the vehicle leased', 'TYPE': 'boolean'},
-                                   {'NAME': 'Is car alarmed ?', 'TYPE': 'boolean'}]
-product_shapes['commercial building'] = []
-product_shapes['sme'] = ['Risk Types']
-
-home_cover = [['fine', 'arts'], ['alternative', 'accommodation'], ['flood', 'coverage'],
-              ['earthquake', 'coverage']]
-
-#
 # dropdown contains the values dropdown options, the attribute from product shapes
 #
 dropdown = dict()

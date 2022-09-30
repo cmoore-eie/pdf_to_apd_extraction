@@ -48,12 +48,16 @@ home_rules['home_emergency_cover'] = [
     [{'LOWER': 'home'}, {'LEMMA': 'Emergency'}, {'LEMMA': 'Assistance'}],
     [{'LOWER': 'home'}, {'LOWER': 'emergency'}, {'LOWER': 'cover'}]
     ]
-home_rules['home_contents_cover'] = [{'LEMMA': 'Home'}, {}, {}, {'LEMMA': 'Home'}]
+home_rules['home_contents_cover'] = [
+    [{'LEMMA': 'Home'}, {}, {}, {'LEMMA': 'Home'}],
+    [{'LEMMA': 'content', 'IS_TITLE': True, 'POS': 'NOUN'}, {'LOWER': 'option', 'IS_TITLE': True, 'POS': 'PROPN'}]
+]
 home_rules['accidental_damage_cover'] = [
     [{'LOWER': 'buildings'}, {}, {'LOWER': 'accidental'}, {}, {'LOWER': 'damage'}],
     [{'LOWER': 'accidental'}, {'LOWER': 'damage'}, {}, {'LOWER': 'buildings'}],
     [{'LOWER': 'accidental'}, {'LOWER': 'damage'}, {}, {'LOWER': 'cover'}],
-    [{'LOWER': 'accidental'}, {'LOWER': 'breakage'}]
+    [{'LOWER': 'accidental'}, {'LOWER': 'breakage'}],
+    [{'LOWER': 'buildings'}, {'LOWER': 'accidental'}, {'LOWER': 'damage'}, {'LOWER': 'option', 'OP': '?'}]
 ]
 home_rules['replacement_locks_cover'] = [
     [{'LOWER': 'replacement'}, {}, {'LOWER': 'locks'}],
@@ -76,11 +80,14 @@ home_rules['lock_replacement'] = [{'LOWER': 'lock'}, {'LOWER': 'replacement'}]
 home_rules['debris_removal'] = [{'LOWER': 'debris'}, {'LOWER': 'removal'}]
 home_rules['damage_underground_pipes'] = [{'LOWER': 'damage'}, {}, {'LOWER': 'underground'}, {'LOWER': 'pipes'}]
 home_rules['increased_water_charges'] = [{'LOWER': 'increased'}, {'LOWER': 'water'}, {'LOWER': 'charges'}]
-home_rules['building'] = [{'LOWER': 'building', 'IS_TITLE': True, 'POS': 'NOUN'}]
+home_rules['building'] = [[{'LOWER': 'building', 'IS_TITLE': True, 'POS': 'NOUN'}],
+                          [{'LEMMA': 'building', 'IS_TITLE': True, 'POS': 'NOUN'}, {'LOWER': 'option', 'IS_TITLE': True, 'POS': 'PROPN'}]]
 home_rules['property'] = [{'LOWER': 'property', 'IS_TITLE': True, 'POS': 'NOUN'}]
 home_rules['terrorism'] = [{'LOWER': 'terrorism', 'IS_TITLE': True, 'POS': 'PROPN'}]
 home_rules['engineering'] = [{'LOWER': 'engineering', 'IS_TITLE': True, 'POS': 'PROPN'}]
 home_rules['money_malicious_attack'] = [{'LOWER': 'money'}, {'LOWER': 'and', 'OP': '?'}, {'LOWER': 'malicious'}, {'LOWER': 'attack'}]
+home_rules['hunter'] = [{'LOWER': 'hunter', 'IS_TITLE': True, 'POS': 'PROPN'}]
+home_rules['leased_premises'] = [{'LEMMA': 'lease'}, {'LEMMA': 'premise'}]
 
 # Personal property in a care facility
 # Damage to underground pipes

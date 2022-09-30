@@ -1,4 +1,3 @@
-from Constants import home_cover, product_shapes
 from RulesHome import home_rules
 from RulesMotor import motor_rules
 
@@ -33,8 +32,6 @@ custom_rules['public_liability'] = [
 
 def build_matcher_rules(matcher, config_dict):
     product_shape = config_dict['Product Information']['product_shape']
-    if product_shape.lower() not in product_shapes:
-        product_shape = 'other'
     for key in custom_rules:
         pattern = custom_rules[key]
         if type(pattern[0]) is list:
@@ -42,7 +39,7 @@ def build_matcher_rules(matcher, config_dict):
         else:
             matcher.add(key.upper(), [pattern], on_match=None)
 
-    if product_shape.lower() == 'motor' or product_shape.lower() == 'other':
+    if product_shape.lower() == 'motor':
       for key in motor_rules:
         pattern = motor_rules[key]
         if type(pattern[0]) is list:
@@ -50,7 +47,7 @@ def build_matcher_rules(matcher, config_dict):
         else:
             matcher.add(key.upper(), [pattern], on_match=None)
 
-    if product_shape.lower() == 'home' or product_shape.lower() == 'other':
+    if product_shape.lower() == 'home':
       for key in home_rules:
         pattern = home_rules[key]
         if type(pattern[0]) is list:

@@ -59,7 +59,6 @@ def main(argv):
         PDFProcessor.process(config_dict)
 
 
-
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         print(help_str)
