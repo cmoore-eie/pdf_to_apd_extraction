@@ -1,4 +1,4 @@
-from ProductShapes import shape_to_dict, dropdown_to_dict, is_related
+from product_shapes import shape_to_dict, dropdown_to_dict, is_related
 from constants import markers
 
 

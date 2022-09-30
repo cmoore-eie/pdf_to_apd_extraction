@@ -14,6 +14,7 @@ Please supply the arguments for -c
 
         '''
 
+
 def print_logo():
     f = open('logo.txt', 'r')
     print(''.join([line for line in f]))

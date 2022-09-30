@@ -1,5 +1,5 @@
 from constants import markers
-from ProductShapes import shape_to_dict
+from product_shapes import shape_to_dict
 from utility import add_xmind_attributes, add_xmind_coverages
 
 
@@ -27,14 +27,6 @@ def apply_shape(line, coverages, config_dict):
         risk_object_coverage_category = risk_object_coverage.addSubTopic()
         risk_object_coverage_category.setTitle("Standard Coverages")
         risk_object_coverage_category.addMarker(markers['clause_category'])
-
-        risk_object_coverage_building_category = risk_object_coverage.addSubTopic()
-        risk_object_coverage_building_category.setTitle("Building Coverages")
-        risk_object_coverage_building_category.addMarker(markers['clause_category'])
-
-        risk_object_coverage_contents_category = risk_object_coverage.addSubTopic()
-        risk_object_coverage_contents_category.setTitle("Contents Coverages")
-        risk_object_coverage_contents_category.addMarker(markers['clause_category'])
 
         risk_object_exclusions = risk_object.addSubTopic()
         risk_object_exclusions.setTitle("Exclusions")
