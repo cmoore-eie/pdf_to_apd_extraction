@@ -90,7 +90,7 @@ def apply_about(line):
     line_about_author = line_about.addSubTopic()
     line_about_author.setTitle('Author')
     info = line_about_author.addSubTopic()
-    info.setTitle('A very smart application')
+    info.setTitle('Wise Monkey')
 
     line_about_description = line_about.addSubTopic()
     line_about_description.setTitle('Description')

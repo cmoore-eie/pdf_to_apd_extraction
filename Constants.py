@@ -8,6 +8,7 @@ coverage_words = ['cover', 'coverage']
 # Markers are the icons added to the topics
 #
 markers = dict()
+markers['attribute_category'] = 'gw_question'
 markers['boolean'] = 'gw_boolean'
 markers['clause_category'] = 'gw_clause_category'
 markers['coverage'] = 'gw_coverage'

@@ -1,4 +1,7 @@
 {
+  "Risk Object": [
+    {"NAME": "Vehicle", "TYPE": "risk_object", "LABEL": "Vehicle"}
+  ],
   "Attributes": [
     {"NAME": "Address", "TYPE": "location"},
     {"NAME": "Vehicle Type", "TYPE": "dropdown"},
