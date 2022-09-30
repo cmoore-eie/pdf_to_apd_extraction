@@ -4,7 +4,7 @@ import sys
 
 import PDFProcessor
 
-version_number = '0.1'
+version_number = '0.3'
 process_errors = dict()
 help_str = '''
 
@@ -14,10 +14,31 @@ Please supply the arguments for -c
 
         '''
 
+def print_logo():
+    print('                     __,__')
+    print('            .--.  .-"     "-.  .--.')
+    print("           / .. \/  .-. .-.  \/ .. \ ")
+    print("          | |  '|  /   Y   \  |'  | |")
+    print('          | \   \  \ 0 | 0 /  /   / |')
+    print("           \ '- ,\.-'`` ``'-./, -' /")
+    print("            `'-' /_   ^ ^   _\ '-'`")
+    print('                |  \._   _./  |')
+    print('                \   \ `~` /   /')
+    print("                 '._ '-=-' _.'")
+    print("                    '~---~'")
+    print(" __      ___           __  __          _            ")
+    print(" \ \    / (_)___ ___  |  \/  |___ _ _ | |_____ _  _ ")
+    print("  \ \/\/ /| (_-</ -_) | |\/| / _ \ ' \| / / -_) || |")
+    print("   \_/\_/ |_/__/\___| |_|  |_\___/_||_|_\_\___|\_, |")
+    print("                                               |__/ ")
+    print(f"                  Version - {version_number}")
+
+
+
 
 def main(argv):
     print("")
-    print(f"Running version - {version_number}")
+    print_logo()
     print("")
     config_file: str = ''
 
