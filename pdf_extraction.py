@@ -2,6 +2,7 @@ import configparser
 import getopt
 import sys
 
+import config
 import pdf_processor
 
 version_number = '0.3'
@@ -54,10 +55,10 @@ def main(argv):
             print(f"({error_item}) : {process_errors[error_item]}")
     else:
         try:
-            config = configparser.ConfigParser()
-            config.read(config_file)
-            config_dict = {s: dict(config.items(s)) for s in config.sections()}
-            pdf_processor.process(config_dict)
+            conf = configparser.ConfigParser()
+            conf.read(config_file)
+            config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
+            pdf_processor.process()
         except OSError:
             print(f'ERROR - The configuration file {config_file} has not been found')
             sys.exit(1)

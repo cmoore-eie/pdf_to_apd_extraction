@@ -1,10 +1,11 @@
+import config
 from constants import markers
 from product_shapes import shape_to_dict
 from utility import add_xmind_attributes, add_xmind_coverages
 
 
-def apply_shape(line, coverages, config_dict):
-    product_shape = config_dict['Product Information']['product_shape']
+def apply_shape(line, coverages):
+    product_shape = config.config_dict['Product Information']['product_shape']
     shape_dict = shape_to_dict(product_shape)
     for attribute in shape_dict['Risk Object']:
         risk_object = line.addSubTopic()
@@ -20,7 +21,7 @@ def apply_shape(line, coverages, config_dict):
         risk_object_attribute = risk_object.addSubTopic()
         risk_object_attribute.setTitle("Attributes")
 
-        add_xmind_attributes(risk_object_attribute, config_dict)
+        add_xmind_attributes(risk_object_attribute)
 
         risk_object_coverage = risk_object.addSubTopic()
         risk_object_coverage.setTitle("Coverages")

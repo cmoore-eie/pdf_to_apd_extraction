@@ -1,3 +1,4 @@
+import config
 from rules_home import home_rules
 from rules_motor import motor_rules
 
@@ -30,8 +31,8 @@ custom_rules['public_liability'] = [
 # custom_rules['property_rule'] = [{'LEMMA': 'property'}]
 
 
-def build_matcher_rules(matcher, config_dict):
-    product_shape = config_dict['Product Information']['product_shape']
+def build_matcher_rules(matcher):
+    product_shape = config.config_dict['Product Information']['product_shape']
     for key in custom_rules:
         pattern = custom_rules[key]
         if type(pattern[0]) is list:

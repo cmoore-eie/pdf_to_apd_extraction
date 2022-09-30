@@ -1,8 +1,9 @@
+import config
 from constants import markers
 from utility import add_xmind_attributes, add_xmind_coverages
 
 
-def apply_shape(line, coverages, config_dict):
+def apply_shape(line, coverages):
     risk_object = line.addSubTopic()
     risk_object.setTitle("Risk Object")
     risk_object.addMarker(markers['risk_object'])
@@ -14,7 +15,7 @@ def apply_shape(line, coverages, config_dict):
     risk_object_attribute = risk_object.addSubTopic()
     risk_object_attribute.setTitle("Attributes")
 
-    add_xmind_attributes(risk_object_attribute, config_dict)
+    add_xmind_attributes(risk_object_attribute, config.config_dict)
 
     risk_object_coverage = risk_object.addSubTopic()
     risk_object_coverage.setTitle("Coverages")

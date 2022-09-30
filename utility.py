@@ -1,3 +1,4 @@
+import config
 from product_shapes import shape_to_dict, dropdown_to_dict, is_related
 from constants import markers
 
@@ -6,8 +7,8 @@ from constants import markers
 # Attributes where there is not a category are added first, then the categories added and
 # finally the attributes that belong to a category are added
 #
-def add_xmind_attributes(attributes, config_dict):
-    product_shape = config_dict['Product Information']['product_shape']
+def add_xmind_attributes(attributes):
+    product_shape = config.config_dict['Product Information']['product_shape']
     shape_dict = shape_to_dict(product_shape)
     for attribute in shape_dict['Attributes']:
         if not (is_related(shape_dict, attribute['NAME'])):

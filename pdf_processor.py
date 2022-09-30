@@ -1,10 +1,9 @@
 import re
-
 import spacy
 from spacy.matcher import Matcher
 from spacypdfreader import pdf_reader
 from spacy.lang.en.stop_words import STOP_WORDS
-
+import config
 import rules
 from constants import coverage_words
 from utility import wise_monkey_says
@@ -17,7 +16,7 @@ def to_title(string):
                      string)
 
 
-def remove_cover_words(config_dict):
+def remove_cover_words():
     """Remove the coverage term from the identified coverage name
 
     Depending on the naming convention used in the policy wording coverages may be described as
@@ -28,13 +27,13 @@ def remove_cover_words(config_dict):
     :return bool
     """
     remove_words = False
-    check_words = config_dict['Process']['remove_coverage_from_label'].lower()
+    check_words = config.config_dict['Process']['remove_coverage_from_label'].lower()
     if check_words == 'yes' or check_words == 'true':
         remove_words = True
     return remove_words
 
 
-def read_document(nlp, config_dict):
+def read_document(nlp):
     """Processes the PDF identified in the configuration
 
     Reads the PDF identified in the configuration file Base Information -> input_document
@@ -44,15 +43,15 @@ def read_document(nlp, config_dict):
     :return spaCy Doc
     """
     wise_monkey_says('Reading Document, this will take a few moments')
-    input_document = config_dict['Base Information']['input_document']
+    input_document = config.config_dict['Base Information']['input_document']
     doc = pdf_reader(input_document, nlp)
     return doc
 
 
-def apply_rules(nlp, doc, config_dict):
+def apply_rules(nlp, doc):
     wise_monkey_says('Building and applying Matcher Rules')
     new_matcher = Matcher(nlp.vocab)
-    rules.build_matcher_rules(new_matcher, config_dict)
+    rules.build_matcher_rules(new_matcher)
 
     coverages = {}
     matches = new_matcher(doc)
@@ -64,16 +63,16 @@ def apply_rules(nlp, doc, config_dict):
             if t.is_punct or t.pos_ == 'PART':
                 ...
             else:
-                if not (remove_cover_words(config_dict) and t.text.lower() in coverage_words):
+                if not (remove_cover_words() and t.text.lower() in coverage_words):
                     final_text = final_text + t.text_with_ws
 
         coverages[string_label] = to_title(final_text.strip())
     return coverages
 
 
-def process(config_dict):
-    product_shape = config_dict['Product Information']['product_shape']
-    if not ('input_document' in config_dict['Base Information']):
+def process():
+    product_shape = config.config_dict['Product Information']['product_shape']
+    if not ('input_document' in config.config_dict['Base Information']):
         wise_monkey_says(f'No Input file given, generating only the shape for {product_shape}')
         coverages = dict()
     else:
@@ -82,21 +81,21 @@ def process(config_dict):
         spacy_punctuation = spacy.lang.en.punctuation
         spacy_hyphens = spacy_punctuation.HYPHENS.split('|')
 
-        doc = read_document(nlp, config_dict)
+        doc = read_document(nlp)
 
-        output_tokens = config_dict['Process']['output_tokens'].lower()
+        output_tokens = config.config_dict['Process']['output_tokens'].lower()
         if output_tokens == 'yes' or output_tokens == 'true':
-            with open(config_dict['Process']['token_file'], 'w') as file:
+            with open(config.config_dict['Process']['token_file'], 'w') as file:
                 for token in doc:
                     line = f'{token.text} | {token.lemma_} | {token.pos_} | {token.tag_} | {token.dep_} | ' \
                            f'{token.shape_} | {token.is_alpha} | {token.is_stop} |  {token.is_title} | ' \
                            f'{token.is_sent_start} | {token.morph} | {token.has_dep()} | {token.right_edge.text} \n'
                     file.write(line)
 
-        coverages = apply_rules(nlp, doc, config_dict)
+        coverages = apply_rules(nlp, doc)
     wise_monkey_says(f'Generating the {product_shape} Mind Map')
 
-    generate_xmind(coverages, config_dict)
+    generate_xmind(coverages)
 
     wise_monkey_says('All done and you are welcome, it is always a pleasure to help')
     wise_monkey_says('Please deposit one banana for services rendered')

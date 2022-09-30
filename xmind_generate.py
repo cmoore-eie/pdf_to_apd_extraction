@@ -1,6 +1,8 @@
 import shutil
 from datetime import date
 import xmind
+
+import config
 from constants import markers
 import product_shape_private_motor
 import product_shape_home
@@ -12,8 +14,8 @@ standard_term_types = {
 }
 
 
-def standard_terms(coverage, config_dict):
-    terms_indicator = config_dict['Mind Map']['add_basic_terms'].lower()
+def standard_terms(coverage):
+    terms_indicator = config.config_dict['Mind Map']['add_basic_terms'].lower()
     if terms_indicator != 'yes' and terms_indicator != 'true':
         return
 
@@ -23,20 +25,20 @@ def standard_terms(coverage, config_dict):
         term.addMarker(standard_term_types[key])
 
 
-def apply_product_shape(line, coverages, config_dict):
-    product_shape = config_dict['Product Information']['product_shape']
+def apply_product_shape(line, coverages):
+    product_shape = config.config_dict['Product Information']['product_shape']
 
     if product_shape.lower() == 'home':
-        product_shape_home.apply_shape(line, coverages, config_dict)
+        product_shape_home.apply_shape(line, coverages)
         return
     if product_shape.lower() == 'private motor':
-        product_shape_private_motor.apply_shape(line, coverages, config_dict)
+        product_shape_private_motor.apply_shape(line, coverages)
         return
 
-    apply_standard_product_shape(line, coverages, config_dict)
+    apply_standard_product_shape(line, coverages)
 
 
-def apply_standard_product_shape(line, coverages, config_dict):
+def apply_standard_product_shape(line, coverages):
     risk_object = line.addSubTopic()
     risk_object.setTitle("Risk Object")
     risk_object.addMarker(markers['risk_object'])
@@ -70,7 +72,7 @@ def apply_standard_product_shape(line, coverages, config_dict):
         new_coverage = risk_object_coverage_category.addSubTopic()
         new_coverage.setTitle(coverages[coverage])
         new_coverage.addMarker(markers['coverage'])
-        standard_terms(new_coverage, config_dict)
+        standard_terms(new_coverage, config.config_dict)
 
 
 def apply_about(line):
@@ -98,17 +100,17 @@ def apply_about(line):
     info.setTitle('Short information about the product')
 
 
-def build_sheet(sheet1, coverages, config_dict):
+def build_sheet(sheet1, coverages):
     sheet1.setTitle("Product")
 
     product = sheet1.getRootTopic()
-    product.setTitle(config_dict['Product Information']['product_name'])
-    product.addLabel(config_dict['Product Information']['product_label'])
+    product.setTitle(config.config_dict['Product Information']['product_name'])
+    product.addLabel(config.config_dict['Product Information']['product_label'])
     product.addMarker(markers['product'])
 
     line = product.addSubTopic()
-    line.setTitle(config_dict['Product Information']['line_name'])
-    line.addLabel(config_dict['Product Information']['line_label'])
+    line.setTitle(config.config_dict['Product Information']['line_name'])
+    line.addLabel(config.config_dict['Product Information']['line_label'])
     line.addMarker(markers['line'])
 
     apply_about(line)
@@ -129,14 +131,14 @@ def build_sheet(sheet1, coverages, config_dict):
     line_conditions = line.addSubTopic()
     line_conditions.setTitle("Conditions")
 
-    apply_product_shape(line, coverages, config_dict)
+    apply_product_shape(line, coverages)
 
 
-def generate_xmind(coverages, config_dict):
-    output_file = config_dict['Base Information']['output_document']
+def generate_xmind(coverages):
+    output_file = config.config_dict['Base Information']['output_document']
     shutil.copyfile('APDBase.xmind', output_file)
     workbook = xmind.load(output_file)
     sheet1 = workbook.getPrimarySheet()
-    build_sheet(sheet1, coverages, config_dict)
+    build_sheet(sheet1, coverages)
 
     xmind.save(workbook, path=output_file)
