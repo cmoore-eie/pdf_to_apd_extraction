@@ -4,6 +4,8 @@ The import file defined in the configuration is read in and processed.
 Once tokenised the information is handed off to the generation of the
 mind map.
 """
+import sys
+
 import spacy
 from spacy.matcher import Matcher
 from spacypdfreader import pdf_reader
@@ -41,7 +43,7 @@ def read_document(nlp):
     :param config_dict The configuration file dictionary representation
     :return spaCy Doc
     """
-    wise_monkey_says('Reading Document, this will take a few moments')
+    wise_monkey_says('Reading Document, this will take but a moment')
     input_document = config.config_dict['Base Information']['input_document']
     doc = pdf_reader(input_document, nlp)
     return doc
@@ -52,10 +54,9 @@ def apply_rules(nlp, doc):
     new_matcher = Matcher(nlp.vocab)
     rules.build_matcher_rules(new_matcher)
 
-    coverages = {}
+    coverages = dict()
     matches = new_matcher(doc)
     for match_id, start, end in matches:
-        string_label = nlp.vocab.strings[match_id]
         matched_text = doc[start:end]
         final_text = ''
         for t in matched_text:
@@ -65,15 +66,30 @@ def apply_rules(nlp, doc):
                 if not (remove_cover_words() and t.text.lower() in coverage_words):
                     final_text = final_text + t.text_with_ws
 
-        coverages[string_label] = to_title(final_text.strip())
-    return coverages
+        proper_name = to_title(final_text.strip())
+        coverages[proper_name] = {'NAME': proper_name, 'CATEGORY': 'Primary Coverages'}
+    return_coverage = []
+    for key in coverages:
+        return_coverage.append(coverages[key])
+    return return_coverage
 
 
 def process():
-    product_shape = config.config_dict['Product Information']['product_shape']
+    config.product_shape = config.config_dict['Product Information']['product_shape']
+    config.product_shape_lower = config.product_shape.lower()
     if not ('input_document' in config.config_dict['Base Information']):
-        wise_monkey_says(f'No Input file given, generating only the shape for {product_shape}')
+        wise_monkey_says(f'No Input file given, generating only the shape for {config.product_shape}')
         coverages = dict()
+    elif config.product_shape_lower == 'go':
+        if 'go_product'in config.config_dict['Product Information'].keys():
+            config.go_product = config.config_dict['Product Information']['go_product']
+            config.go_product_lower = config.go_product.lower()
+            wise_monkey_says(f'Looks like you are creating a GO product based on {config.go_product}')
+            coverages = dict()
+        else:
+            wise_monkey_says(f'If you want to build a GO product please set "go_product" in the conficuration file')
+            wise_monkey_says(f'We will try again after you correct the configuration file')
+            sys.exit(1)
     else:
         nlp = spacy.load("en_core_web_sm")
         spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
@@ -92,7 +108,7 @@ def process():
                     file.write(line)
 
         coverages = apply_rules(nlp, doc)
-    wise_monkey_says(f'Generating the {product_shape} Mind Map')
+    wise_monkey_says(f'Generating the {config.product_shape} Mind Map')
 
     generate_xmind(coverages)
 

@@ -1,4 +1,9 @@
 {
+  "Emplyee Type": [
+    {"NAME": "Housekeepers", "LABEL": "Housekeepers"},
+    {"NAME": "Gardeners", "LABEL": "Gardeners"},
+    {"NAME": "Cleaners", "LABEL": "Cleaners"}
+  ],
   "Number Bedrooms": [
     {"NAME": "Up to 2", "LABEL": "UpTo2"},
     {"NAME": "Three", "LABEL": "ThreeBedrooms"},

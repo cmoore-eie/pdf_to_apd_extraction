@@ -16,17 +16,17 @@ def add_xmind_attributes(attributes):
     that are attached to the category.
     """
     product_shape = config.config_dict['Product Information']['product_shape']
-    shape_dict = shape_to_dict(product_shape)
-    for attribute in shape_dict['Attributes']:
-        if not (is_related(shape_dict, attribute['NAME'])):
+    shape_to_dict(product_shape)
+    for attribute in config.shape_dict['Attributes']:
+        if not (is_related(config.shape_dict, attribute['NAME'])):
             if not ('CATEGORY' in attribute):
-                add_attribute(attribute, attributes, shape_dict)
+                add_attribute(attribute, attributes, config.shape_dict)
 
-    question_category_topic = add_question_categories(shape_dict, attributes)
-    for attribute in shape_dict['Attributes']:
+    question_category_topic = add_question_categories(config.shape_dict, attributes)
+    for attribute in config.shape_dict['Attributes']:
         if 'CATEGORY' in attribute:
-            if not (is_related(shape_dict, attribute['NAME'])):
-                add_attribute(attribute, attributes, shape_dict, question_category_topic)
+            if not (is_related(config.shape_dict, attribute['NAME'])):
+                add_attribute(attribute, attributes, config.shape_dict, question_category_topic)
 
 
 #
@@ -43,6 +43,17 @@ def add_question_categories(shape_dict, topic):
     return question_category_topic
 
 
+def add_coverage_categories(shape_dict, topic):
+    coverage_category_topic = dict()
+    if 'Coverage Category' in shape_dict:
+        for coverage_category in shape_dict['Coverage Category']:
+            item = topic.addSubTopic()
+            item.setTitle(coverage_category['NAME'])
+            item.addMarker(markers[coverage_category['TYPE']])
+            coverage_category_topic[coverage_category['NAME']] = item
+    return coverage_category_topic
+
+
 def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
     if 'CATEGORY' in attribute:
         if question_category_topic is not None:
@@ -51,6 +62,7 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
             copy_topic = topic
     else:
         copy_topic = topic
+
     item = copy_topic.addSubTopic()
     item.setTitle(attribute['NAME'])
     item.addMarker(markers[attribute['TYPE']])
@@ -61,7 +73,10 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
             dropdown_name = attribute['LIST']
         else:
             dropdown_name = attribute['NAME']
-        dropdown_data = dropdown_to_dict(dropdown_name)
+        if 'OPTIONS' in attribute.keys():
+            dropdown_data = attribute['OPTIONS']
+        else:
+            dropdown_data = dropdown_to_dict(dropdown_name)
 
         for dropdown_value in dropdown_data:
             if type(dropdown_value) == dict:
@@ -76,13 +91,38 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
                 item_option.setTitle(dropdown_value)
                 item_option.addMarker(markers['text'])
                 extract_related(shape_dict, attribute['NAME'], dropdown_value, item_option)
+    return item
 
 
 def add_xmind_coverages(coverages, topic):
+    """Create the coverages in the mind map
+
+    Coverages should belong to a category, and they are created first, once
+    created the coverages are added to the correct category. If there are any terms
+    these are added to the coverage by using the add attribute function, terms could
+    include risk objects when a coverage schedule is created, these have attributes
+    and this is passed to the standard add attribute process.
+
+    :parameter coverages (list) A list of coverage dicts
+    :parameter topic (topic) The base topic to attach the coverages to
+    """
+    coverage_categories = add_coverage_categories(config.shape_dict, topic)
     for coverage in coverages:
-        new_coverage = topic.addSubTopic()
-        new_coverage.setTitle(coverages[coverage])
+        if 'CATEGORY' in coverage:
+            topic_to_use = coverage_categories[coverage['CATEGORY']]
+        else:
+            topic_to_use = topic
+        new_coverage = topic_to_use.addSubTopic()
+        new_coverage.setTitle(coverage['NAME'])
         new_coverage.addMarker(markers['coverage'])
+
+        if 'TERMS' in coverage.keys():
+            for term in coverage['TERMS']:
+                new_term = add_attribute(term, new_coverage, config.shape_dict)
+
+                if 'ATTRIBUTES' in term.keys():
+                    for term_attribute in term['ATTRIBUTES']:
+                        add_attribute(term_attribute, new_term, config.shape_dict)
 
 
 def extract_related(shape_dict, parent, link, topic):
@@ -94,7 +134,7 @@ def extract_related(shape_dict, parent, link, topic):
         if relationship['PARENT'] == parent and relationship['LINK'] == link:
             for attribute in attributes:
                 if attribute['NAME'] == relationship['CHILD']:
-                    add_attribute(attribute, topic, shape_dict)
+                    add_attribute(attribute, topic, config.shape_dict)
 
 
 def wise_monkey_says(message):

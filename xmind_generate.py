@@ -3,6 +3,7 @@ from datetime import date
 import xmind
 
 import config
+import product_shape_go
 from constants import markers
 import product_shape_private_motor
 import product_shape_home
@@ -26,13 +27,14 @@ def standard_terms(coverage):
 
 
 def apply_product_shape(line, coverages):
-    product_shape = config.config_dict['Product Information']['product_shape']
-
-    if product_shape.lower() == 'home':
+    if config.product_shape_lower == 'home':
         product_shape_home.apply_shape(line, coverages)
         return
-    if product_shape.lower() == 'private motor':
+    if config.product_shape_lower == 'private motor':
         product_shape_private_motor.apply_shape(line, coverages)
+        return
+    if config.product_shape_lower == 'go':
+        product_shape_go.apply_shape(line, coverages)
         return
 
     apply_standard_product_shape(line, coverages)

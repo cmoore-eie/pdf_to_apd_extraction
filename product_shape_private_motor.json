@@ -25,5 +25,9 @@
     {"NAME": "Is the vehicle leased", "TYPE": "boolean"},
     {"NAME": "Is car alarmed ?", "TYPE": "boolean"},
     {"NAME": "Has your car been modified?", "TYPE": "boolean", "LABEL": "VehicleModification"}
+  ],
+  "Coverage Category": [
+    {"NAME": "Primary Coverages", "TYPE": "clause_category"},
+    {"NAME": "Optional Coverages", "TYPE": "clause_category"}
   ]
 }

@@ -5,8 +5,7 @@ from utility import add_xmind_attributes, add_xmind_coverages
 
 
 def apply_shape(line, coverages):
-    product_shape = config.config_dict['Product Information']['product_shape']
-    shape_to_dict(product_shape)
+    shape_to_dict(config.go_product_lower)
     for attribute in config.shape_dict['Risk Object']:
         risk_object = line.addSubTopic()
         risk_object.setTitle(attribute['NAME'])
@@ -38,4 +37,4 @@ def apply_shape(line, coverages):
         risk_object_conditions_category.setTitle("Standard Conditions")
         risk_object_conditions_category.addMarker(markers['clause_category'])
 
-        add_xmind_coverages(coverages, risk_object_coverage)
+        add_xmind_coverages(config.shape_dict['Coverages'], risk_object_coverage)

@@ -1,14 +1,15 @@
 [Base Information]
 input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/BCAAHome-Condo-Tenant-Comprehensive.pdf
-output_document = /Users/cmoore/Development/SampleData/ACMEProduct.xmind
+output_document = /Users/cmoore/Development/SampleData/MyProduct.xmind
 
 [Product Information]
-# product_shape = Home / Commercial Building / Private Motor / Other / SME
-product_shape = Home
-product_name = ACME Example Product
+# product_shape = Home / Commercial Building / Private Motor / Other / SME / GO
+product_shape = GO
+product_name = My Example Product
 product_label = AEP-AEPProduct
-line_name = ACME Example Line
+line_name = My Example Line
 line_label = AEL-ACMELine
+go_product = GW_UK_Homeowners
 
 [Mind Map]
 add_basic_terms = No

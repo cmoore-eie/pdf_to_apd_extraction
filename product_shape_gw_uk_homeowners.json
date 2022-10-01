@@ -58,6 +58,52 @@
   ],
   "Coverage Category": [
     {"NAME": "Primary Coverages", "TYPE": "clause_category"},
-    {"NAME": "Optional Coverages", "TYPE": "clause_category"}
+    {"NAME": "Optional Coverages", "TYPE": "clause_category"},
+    {"NAME": "Liability Clauses", "TYPE": "clause_category"}
+  ],
+  "Coverages": [
+    {"NAME": "Buildings", "CATEGORY": "Primary Coverages", "TERMS": [
+      {"NAME": "Domestic Employers Liability", "TYPE": "money"},
+      {"NAME": "Compulsory Excess", "TYPE": "money"},
+      {"NAME": "Voluntary Excess", "TYPE": "dropdown"},
+      {"NAME": "Escape of Water Excess", "TYPE": "money"},
+      {"NAME": "Subsidence Excess", "TYPE": "money"},
+      {"NAME": "Theft Excess", "TYPE": "money"}
+    ]},
+    {"NAME": "Contents", "CATEGORY": "Primary Coverages", "TERMS": [
+      {"NAME": "Sum Insured", "TYPE": "money"},
+      {"NAME": "Cover required for contents away from home?", "TYPE": "boolean"},
+      {"NAME": "Compulsory Excess", "TYPE": "money"},
+      {"NAME": "Voluntary Excess", "TYPE": "dropdown"},
+      {"NAME": "Escape of Water Excess", "TYPE": "money"},
+      {"NAME": "Subsidence Excess", "TYPE": "money"},
+      {"NAME": "Theft excess", "TYPE": "money"},
+      {"NAME": "High Value Items", "TYPE": "risk_object", "ATTRIBUTES": [
+        {"NAME": "Item to be insured", "TYPE": "dropdown"},
+        {"NAME": "Description", "TYPE": "text"},
+        {"NAME": "Replacement cost", "TYPE": "boolean"},
+        {"NAME": "Is this item anchored to the ground?", "TYPE": "boolean"}
+      ]}
+    ]},
+    {"NAME": "Home Emergency", "CATEGORY": "Optional Coverages", "TERMS": [
+      {"NAME": "Sum Insured", "TYPE": "money"},
+      {"NAME": "Excess", "TYPE": "money"}
+    ]},
+    {"NAME": "Personal Legal Expenses", "CATEGORY": "Optional Coverages", "TERMS": [
+      {"NAME": "Limit", "TYPE": "money"}
+    ]},
+    {"NAME": "Public Liability", "CATEGORY": "Liability Clauses", "TERMS": [
+      {"NAME": "Limit", "TYPE": "money"}
+    ]},
+    {"NAME": "Domestic Employers Liability", "CATEGORY": "Liability Clauses", "TERMS": [
+      {"NAME": "Indemnity Limit", "TYPE": "dropdown", "LABEL": "EmpLiabIndemLimit", "OPTIONS": [
+        {"NAME": "1,000,000", "LABEL": "TenMillion"}
+      ]},
+      {"NAME": "Employment Information", "TYPE": "risk_object", "LABEL": "EmployInfor","ATTRIBUTES": [
+        {"NAME": "Employee Type", "TYPE": "dropdown", "LIST": "Emplyee Type", "LABEL": "EmplType"},
+        {"NAME": "Number of Employees", "TYPE": "number", "LABEL": "NumEmploy"},
+        {"NAME": "Total Annual Wages", "TYPE": "money", "LABEL": "TotAnnualWages"}
+      ]}
+    ]}
   ]
 }

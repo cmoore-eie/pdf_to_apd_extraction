@@ -1,23 +1,28 @@
 import json
-
-shape_files = {'private motor': 'product_shape_private_motor.json',
-               'home': 'product_shape_home.json',
-               'dropdown': 'product_shape_dropdown.json'}
+import config
 
 
 def shape_to_dict(shape):
-    if shape.lower() in shape_files.keys():
-        shape_file = shape_files[shape.lower()]
+    if len(config.shape_dict.keys()) > 0:
+        return config.shape_dict
+
+    if config.product_shape_lower == 'go':
+        test_product_shape = config.go_product_lower
+    else:
+        test_product_shape = config.product_shape_lower
+
+    if test_product_shape in config.shape_files.keys():
+        shape_file = config.shape_files[test_product_shape]
         with open(shape_file) as json_file:
-            data = json.load(json_file)
-            return data
+            config.shape_dict = json.load(json_file)
+            return config.shape_dict
     else:
         print(f'!!! Unable to process Shape for {shape} !!!')
         return {'Attributes': []}
 
 
 def dropdown_to_dict(dropdown_name):
-    shape_file = shape_files['dropdown']
+    shape_file = config.shape_files['dropdown']
     with open(shape_file) as json_file:
         data = json.load(json_file)
         if dropdown_name in data.keys():
