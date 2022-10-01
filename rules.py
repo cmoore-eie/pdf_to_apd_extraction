@@ -1,8 +1,10 @@
+import json
+
+from spacy import matcher
+
 import config
-from rules_home import home_rules
 from rules_motor import motor_rules
 
-one = ['personal', 'accident']
 custom_rules = dict()
 custom_rules['building_base_coverage'] = [{'LEMMA': 'Building'}, {'IS_PUNCT': True, 'OP': '?'}, {'LEMMA': 'Base'}, {'LEMMA': 'cover'}]
 custom_rules['building_extended_coverage'] = [{'LEMMA': 'Building'}, {'IS_PUNCT': True, 'OP': '?'}, {'LEMMA': 'Extended'}, {'LEMMA': 'Coverage'}]
@@ -30,6 +32,27 @@ custom_rules['public_liability'] = [
     ]
 # custom_rules['property_rule'] = [{'LEMMA': 'property'}]
 
+def build_rules(rule_file, matcher):
+    rule_dict = dict()
+    with open(rule_file) as json_file:
+        data = json.load(json_file)
+        for rule_name in data.keys():
+            pattern_json = data[rule_name]
+            pattern = []
+            for pattern_list in pattern_json:
+                item_body = []
+                for pattern_item in pattern_list:
+                    item_body_part = dict()
+                    for key in pattern_item.keys():
+                        if key == 'IS_PUNCT':
+                            item_body_part[key] = True
+                        elif key == 'IS_TITLE':
+                            item_body_part[key] = True
+                        else:
+                            item_body_part[key] = pattern_item[key]
+                    item_body.append(item_body_part)
+                pattern.append(item_body)
+            matcher.add(rule_name.upper(), pattern, on_match=None)
 
 def build_matcher_rules(matcher):
     product_shape = config.config_dict['Product Information']['product_shape']
@@ -49,9 +72,4 @@ def build_matcher_rules(matcher):
                 matcher.add(key.upper(), [pattern], on_match=None)
 
     if product_shape.lower() == 'home':
-        for key in home_rules:
-            pattern = home_rules[key]
-            if type(pattern[0]) is list:
-                matcher.add(key.upper(), pattern, on_match=None)
-            else:
-                matcher.add(key.upper(), [pattern], on_match=None)
+        build_rules('rules_home.json', matcher)

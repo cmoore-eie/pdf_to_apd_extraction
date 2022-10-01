@@ -4,8 +4,8 @@
   ],
   "Attributes": [
     {"NAME": "Structure Type", "TYPE": "dropdown"},
-    {"NAME": "Number of Bedrooms", "TYPE" : "dropdown", "LABEL": "NumberBedrooms", "CATEGORY": "General"},
-    {"NAME": "Number of Rooms", "TYPE" : "dropdown", "LABEL": "NumberRooms",  "CATEGORY": "General"},
+    {"NAME": "Number of Bedrooms", "TYPE" : "dropdown", "LABEL": "NumberBedrooms", "CATEGORY": "General", "LIST": "Number Bedrooms"},
+    {"NAME": "Number of Rooms", "TYPE" : "dropdown", "LABEL": "NumberRooms",  "CATEGORY": "General", "LIST": "Number Rooms"},
     {"NAME": "Does the property have a cellar or basement", "TYPE": "boolean", "LABEL": "Basement", "CATEGORY": "General"},
     {"NAME": "Does the property have a swimming pool", "TYPE": "boolean", "LABEL": "SwimmingPool", "CATEGORY": "General"},
     {"NAME": "When was the property built?", "TYPE": "number", "LABEL":  "YearBuilt", "CATEGORY": "General"},

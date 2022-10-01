@@ -1,19 +1,27 @@
+import re
+
 import config
 from product_shapes import shape_to_dict, dropdown_to_dict, is_related
 from constants import markers
 
 
-#
-# Attributes where there is not a category are added first, then the categories added and
-# finally the attributes that belong to a category are added
-#
 def add_xmind_attributes(attributes):
+    """ Add attributes to the mind map
+
+    Using the Json file that contains the information about the product shape the first set of
+    attributes that are not attached to a category are processed first, this ensure they appear
+    as the first set of attribute.
+
+    The second part of the process adds the categories and processes the attributes
+    that are attached to the category.
+    """
     product_shape = config.config_dict['Product Information']['product_shape']
     shape_dict = shape_to_dict(product_shape)
     for attribute in shape_dict['Attributes']:
         if not (is_related(shape_dict, attribute['NAME'])):
             if not ('CATEGORY' in attribute):
                 add_attribute(attribute, attributes, shape_dict)
+
     question_category_topic = add_question_categories(shape_dict, attributes)
     for attribute in shape_dict['Attributes']:
         if 'CATEGORY' in attribute:
@@ -54,11 +62,20 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
         else:
             dropdown_name = attribute['NAME']
         dropdown_data = dropdown_to_dict(dropdown_name)
+
         for dropdown_value in dropdown_data:
-            item_option = item.addSubTopic()
-            item_option.setTitle(dropdown_value)
-            item_option.addMarker(markers['text'])
-            extract_related(shape_dict, attribute['NAME'], dropdown_value, item_option)
+            if type(dropdown_value) == dict:
+                item_option = item.addSubTopic()
+                item_option.setTitle(dropdown_value['NAME'])
+                item_option.addMarker(markers['text'])
+                if 'LABEL' in dropdown_value.keys():
+                    item_option.addLabel(dropdown_value['LABEL'])
+                extract_related(shape_dict, attribute['NAME'], dropdown_value['NAME'], item_option)
+            else:
+                item_option = item.addSubTopic()
+                item_option.setTitle(dropdown_value)
+                item_option.addMarker(markers['text'])
+                extract_related(shape_dict, attribute['NAME'], dropdown_value, item_option)
 
 
 def add_xmind_coverages(coverages, topic):
@@ -83,3 +100,9 @@ def extract_related(shape_dict, parent, link, topic):
 def wise_monkey_says(message):
     to_say = f'Wise Monkey has spoken - "{message}"'
     print(to_say)
+
+
+def to_title(string):
+    regex = re.compile("[a-z]+('[a-z]+)?", re.I)
+    return regex.sub(lambda grp: grp.group(0)[0].upper() + grp.group(0)[1:].lower(),
+                     string)

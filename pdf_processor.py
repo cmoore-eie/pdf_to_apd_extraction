@@ -1,4 +1,9 @@
-import re
+""" The main processing module
+
+The import file defined in the configuration is read in and processed.
+Once tokenised the information is handed off to the generation of the
+mind map.
+"""
 import spacy
 from spacy.matcher import Matcher
 from spacypdfreader import pdf_reader
@@ -6,14 +11,8 @@ from spacy.lang.en.stop_words import STOP_WORDS
 import config
 import rules
 from constants import coverage_words
-from utility import wise_monkey_says
+from utility import wise_monkey_says, to_title
 from xmind_generate import generate_xmind
-
-
-def to_title(string):
-    regex = re.compile("[a-z]+('[a-z]+)?", re.I)
-    return regex.sub(lambda grp: grp.group(0)[0].upper() + grp.group(0)[1:].lower(),
-                     string)
 
 
 def remove_cover_words():
