@@ -1,3 +1,4 @@
+import json
 import re
 
 import config
@@ -154,3 +155,11 @@ def to_title(string):
     regex = re.compile("[a-z]+('[a-z]+)?", re.I)
     return regex.sub(lambda grp: grp.group(0)[0].upper() + grp.group(0)[1:].lower(),
                      string)
+
+
+def load_shape_files():
+    file = config.json_store + 'shape_files.json'
+    with open(file) as json_file:
+        list_items = json.load(json_file)['Json Store']
+        for item in list_items:
+            config.shape_files.update(item)

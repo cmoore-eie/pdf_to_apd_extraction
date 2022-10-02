@@ -1,0 +1,8 @@
+{
+  "Json Store":[
+    {"private motor": "product_shape_private_motor.json"},
+    {"home": "product_shape_home.json"},
+    {"dropdown": "product_shape_dropdown.json"},
+    {"gw_uk_homeowners": "product_shape_gw_uk_homeowners.json"}
+  ]
+}

@@ -86,7 +86,7 @@ def process():
         if 'regular_product' in config.config_dict['Product Information'].keys():
             config.regular_product = config.config_dict['Product Information']['regular_product']
             config.regular_product_lower = config.regular_product.lower()
-            wise_monkey_says(f'Looks like you are creating a GO product based on {config.regular_product}')
+            wise_monkey_says(f'Looks like you are creating a Regular product based on {config.regular_product}')
             coverages = dict()
         else:
             wise_monkey_says(

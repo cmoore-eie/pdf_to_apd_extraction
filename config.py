@@ -12,7 +12,4 @@ regular_product = ''
 regular_product_lower = ''
 is_regular_product = False
 json_store = ''
-shape_files = {'private motor': 'product_shape_private_motor.json',
-               'home': 'product_shape_home.json',
-               'dropdown': 'product_shape_dropdown.json',
-               'gw_uk_homeowners': 'product_shape_gw_uk_homeowners.json'}
+shape_files = dict()

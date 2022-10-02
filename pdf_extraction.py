@@ -4,7 +4,7 @@ import sys
 
 import config
 import pdf_processor
-from utility import wise_monkey_says
+from utility import wise_monkey_says, load_shape_files
 
 version_number = '0.3'
 process_errors = dict()
@@ -61,6 +61,7 @@ def main(argv):
             config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
             if 'json_store' in config.config_dict['Base Information'].keys():
                 config.json_store = config.config_dict['Base Information']['json_store']
+                load_shape_files()
             else:
                 wise_monkey_says('You forgot to tell me where the json files can be found')
                 wise_monkey_says('if you set the json_sote in the configuration file we can try again')

@@ -5,7 +5,7 @@ json_store = json_store/
 
 [Product Information]
 # product_shape = Home / Commercial Building / Private Motor / Other / SME / Regular
-product_shape = Regular
+product_shape = Home
 product_name = My Example Product
 product_label = AEP-AEPProduct
 line_name = My Example Line
