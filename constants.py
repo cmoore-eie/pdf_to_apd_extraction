@@ -14,6 +14,7 @@ markers['clause_category'] = 'gw_clause_category'
 markers['coverage'] = 'gw_coverage'
 markers['date_time'] = 'gw_date_time'
 markers['dropdown'] = 'gw_drop_down'
+markers['exposure'] = 'gw_exposure'
 markers['info'] = 'symbol-info'
 markers['line'] = 'gw_line'
 markers['location'] = 'gw_location'
@@ -22,4 +23,10 @@ markers['number'] = 'gw_integer'
 markers['product'] = 'gw_product'
 markers['risk_object'] = 'gw_risk_object'
 markers['text'] = 'gw_text'
+
+#
+# Common Conversions
+#
+common_conversions = dict()
+common_conversions['Loss Rent'] = 'Loss of Rent'
 

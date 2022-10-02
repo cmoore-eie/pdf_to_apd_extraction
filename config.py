@@ -13,3 +13,4 @@ regular_product_lower = ''
 is_regular_product = False
 json_store = ''
 shape_files = dict()
+matcher_phrases = []

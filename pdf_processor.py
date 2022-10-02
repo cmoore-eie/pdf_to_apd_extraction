@@ -5,16 +5,19 @@ Once tokenised the information is handed off to the generation of the
 mind map.
 """
 import sys
-
 import spacy
 from spacy.matcher import Matcher
+from spacy.matcher import PhraseMatcher
 from spacypdfreader import pdf_reader
 from spacy.lang.en.stop_words import STOP_WORDS
 import config
+import constants
 import rules
 from constants import coverage_words
-from utility import wise_monkey_says, to_title
+from utility import wise_monkey_says, to_title, load_phrase_files
 from xmind_generate import generate_xmind
+
+spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
 
 
 def remove_cover_words():
@@ -37,15 +40,66 @@ def read_document(nlp):
     """Processes the PDF identified in the configuration
 
     Reads the PDF identified in the configuration file Base Information -> input_document
+    The process will pass the information through the processing twice, while the first pass
+    could be written to specificly convert pdf to text, this process would not save much
+    time as the conversion to text take the majority of the processing. Other conversions
+    have been tested and none are as accurate.
 
     :param nlp The loaded nlp object
     :return spaCy Doc
     """
     wise_monkey_says('Reading Document, this will take but a moment')
+    wise_monkey_says('... Performing first pass to convert PDF to text')
     input_document = config.config_dict['Base Information']['input_document']
+
     doc = pdf_reader(input_document, nlp)
+
+    wise_monkey_says('... Removing stopwords from the document')
+
+    final_text_list = []
+    final_text = ' '
+    for token in doc.text.split():
+        if token.lower() not in spacy_stopwords:
+            final_text_list.append(token)
+    final_text = final_text.join(final_text_list)
+
+    wise_monkey_says('... Performing second pass to tokenize the text')
+
+    doc = nlp(final_text)
+
     return doc
 
+def apply_phrase_rules(nlp):
+    wise_monkey_says('Building and applying Phrase Rules')
+    new_matcher = PhraseMatcher(nlp.vocab)
+
+    load_phrase_files()
+    patterns = [nlp(phrase) for phrase in config.matcher_phrases]
+    new_matcher.add("COVERAGE_PATTERN", patterns)
+
+    doc = read_document(nlp)
+
+
+    coverages = dict()
+    matches = new_matcher(doc)
+    for match_id, start, end in matches:
+        matched_text = doc[start:end]
+        final_text = ''
+        for t in matched_text:
+            if t.is_punct or t.pos_ == 'PART':
+                ...
+            else:
+                if not (remove_cover_words() and t.text.lower() in coverage_words):
+                    final_text = final_text + ' ' + t.text_with_ws
+
+        final_text = final_text.replace('  ', ' ')
+        proper_name = to_title(final_text.strip())
+        if proper_name in constants.common_conversions.keys():
+            added_name = constants.common_conversions[proper_name]
+        else:
+            added_name = proper_name
+        coverages[added_name] = {'NAME': added_name, 'CATEGORY': 'Primary Coverages'}
+    return coverages, doc
 
 def apply_rules(nlp, doc):
     wise_monkey_says('Building and applying Matcher Rules')
@@ -62,17 +116,29 @@ def apply_rules(nlp, doc):
                 ...
             else:
                 if not (remove_cover_words() and t.text.lower() in coverage_words):
-                    final_text = final_text + t.text_with_ws
+                    final_text = final_text + ' ' + t.text_with_ws
 
+        final_text = final_text.replace('  ', ' ')
         proper_name = to_title(final_text.strip())
-        coverages[proper_name] = {'NAME': proper_name, 'CATEGORY': 'Primary Coverages'}
-    return_coverage = []
-    for key in coverages:
-        return_coverage.append(coverages[key])
-    return return_coverage
+        if proper_name in constants.common_conversions.keys():
+            added_name = constants.common_conversions[proper_name]
+        else:
+            added_name = proper_name
+        coverages[added_name] = {'NAME': added_name, 'CATEGORY': 'Primary Coverages'}
+    return coverages
 
 
 def process():
+    """ Main processing function
+
+    Processes the PDF file if it is available, this will first perform phrase matching
+    then apply rules matching to derive a set of coverages. When there is not input file
+    given the mind map will corrispond to the product shape defined in the configuration
+    file.
+
+    If a regular mind map is to be generated the regular product defined in the
+    configuration file will be used to construct the mind map.
+    """
     config.product_shape = config.config_dict['Product Information']['product_shape']
     config.product_shape_lower = config.product_shape.lower()
     if config.product_shape_lower == 'regular':
@@ -95,22 +161,20 @@ def process():
             sys.exit(1)
     else:
         nlp = spacy.load("en_core_web_sm")
-        spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
         spacy_punctuation = spacy.lang.en.punctuation
-        spacy_hyphens = spacy_punctuation.HYPHENS.split('|')
+        phrase_coverages, doc = apply_phrase_rules(nlp)
+        write_tokens()
+        rule_coverages = apply_rules(nlp, doc)
+        merged_coverages = dict()
 
-        doc = read_document(nlp)
+        for key in phrase_coverages.keys():
+            merged_coverages[key] = phrase_coverages[key]
+        for key in rule_coverages.keys():
+            merged_coverages[key] = rule_coverages[key]
 
-        output_tokens = config.config_dict['Process']['output_tokens'].lower()
-        if output_tokens == 'yes' or output_tokens == 'true':
-            with open(config.config_dict['Process']['token_file'], 'w') as file:
-                for token in doc:
-                    line = f'{token.text} | {token.lemma_} | {token.pos_} | {token.tag_} | {token.dep_} | ' \
-                           f'{token.shape_} | {token.is_alpha} | {token.is_stop} |  {token.is_title} | ' \
-                           f'{token.is_sent_start} | {token.morph} | {token.has_dep()} | {token.right_edge.text} \n'
-                    file.write(line)
-
-        coverages = apply_rules(nlp, doc)
+        coverages = []
+        for key in merged_coverages:
+            coverages.append(merged_coverages[key])
     wise_monkey_says(f'Generating the {config.product_shape} Mind Map')
 
     generate_xmind(coverages)

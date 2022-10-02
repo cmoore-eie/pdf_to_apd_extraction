@@ -71,6 +71,10 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
     item.addMarker(markers[attribute['TYPE']])
     if 'LABEL' in attribute.keys():
         item.addLabel(attribute['LABEL'])
+    if 'ATTRIBUTES' in attribute.keys():
+        for attribute_attribute in attribute['ATTRIBUTES']:
+            add_attribute(attribute_attribute, item, config.shape_dict)
+
     if attribute['TYPE'] == 'dropdown':
         if 'LIST' in attribute.keys():
             dropdown_name = attribute['LIST']
@@ -147,7 +151,7 @@ def extract_related(shape_dict, parent, link, topic):
 
 
 def wise_monkey_says(message):
-    to_say = f'Wise Monkey has spoken - "{message}"'
+    to_say = f'Wise Monkey has spoken - {message}'
     print(to_say)
 
 
@@ -163,3 +167,23 @@ def load_shape_files():
         list_items = json.load(json_file)['Json Store']
         for item in list_items:
             config.shape_files.update(item)
+
+def load_phrase_files():
+    file = config.json_store + 'rules_phrase_home.json'
+    with open(file) as json_file:
+        list_items = json.load(json_file)['Phrases']
+        for item in list_items:
+            config.matcher_phrases.append(item['NAME'])
+
+
+def write_tokens(doc):
+    output_tokens = config.config_dict['Process']['output_tokens'].lower()
+    if output_tokens == 'yes' or output_tokens == 'true':
+        with open(config.config_dict['Process']['token_file'], 'w') as file:
+            line = f'text|lemma|pos_|tag|dep_|shape_|is_alpha|is_stop|is_title|is_sent_start|morph|has_dep()|right_edge.text'
+            file.write(line)
+            for token in doc:
+                line = f'{token.text}|{token.lemma_}|{token.pos_}|{token.tag_}|{token.dep_}|' \
+                       f'{token.shape_}|{token.is_alpha}|{token.is_stop}|{token.is_title}|' \
+                       f'{token.is_sent_start}|{token.morph}|{token.has_dep()}|{token.right_edge.text} \n'
+                file.write(line)
