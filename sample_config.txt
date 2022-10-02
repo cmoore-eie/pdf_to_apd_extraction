@@ -3,13 +3,13 @@ input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareIn
 output_document = /Users/cmoore/Development/SampleData/MyProduct.xmind
 
 [Product Information]
-# product_shape = Home / Commercial Building / Private Motor / Other / SME / GO
-product_shape = GO
+# product_shape = Home / Commercial Building / Private Motor / Other / SME / Stock
+product_shape = Home
 product_name = My Example Product
 product_label = AEP-AEPProduct
 line_name = My Example Line
 line_label = AEL-ACMELine
-go_product = GW_UK_Homeowners
+stock_product = GW_UK_Homeowners
 
 [Mind Map]
 add_basic_terms = No

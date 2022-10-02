@@ -8,8 +8,9 @@ config_dict = dict()
 shape_dict = dict()
 product_shape = ''
 product_shape_lower = ''
-go_product = ''
-go_product_lower = ''
+stock_product = ''
+stock_product_lower = ''
+is_stock_product = False
 shape_files = {'private motor': 'product_shape_private_motor.json',
                'home': 'product_shape_home.json',
                'dropdown': 'product_shape_dropdown.json',

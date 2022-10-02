@@ -77,17 +77,21 @@ def apply_rules(nlp, doc):
 def process():
     config.product_shape = config.config_dict['Product Information']['product_shape']
     config.product_shape_lower = config.product_shape.lower()
+    if config.product_shape_lower == 'stock':
+        config.is_stock_product = True
+    else:
+        config.is_stock_product = False
     if not ('input_document' in config.config_dict['Base Information']):
         wise_monkey_says(f'No Input file given, generating only the shape for {config.product_shape}')
         coverages = dict()
-    elif config.product_shape_lower == 'go':
-        if 'go_product'in config.config_dict['Product Information'].keys():
-            config.go_product = config.config_dict['Product Information']['go_product']
-            config.go_product_lower = config.go_product.lower()
-            wise_monkey_says(f'Looks like you are creating a GO product based on {config.go_product}')
+    elif config.is_stock_product:
+        if 'stock_product'in config.config_dict['Product Information'].keys():
+            config.stock_product = config.config_dict['Product Information']['stock_product']
+            config.stock_product_lower = config.stock_product.lower()
+            wise_monkey_says(f'Looks like you are creating a GO product based on {config.stock_product}')
             coverages = dict()
         else:
-            wise_monkey_says(f'If you want to build a GO product please set "go_product" in the conficuration file')
+            wise_monkey_says(f'If you want to build a stock product please set "stock_product" in the conficuration file')
             wise_monkey_says(f'We will try again after you correct the configuration file')
             sys.exit(1)
     else:

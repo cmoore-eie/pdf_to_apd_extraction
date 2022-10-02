@@ -5,7 +5,7 @@ from utility import add_xmind_attributes, add_xmind_coverages
 
 
 def apply_shape(line, coverages):
-    shape_to_dict(config.go_product_lower)
+    shape_to_dict(config.stock_product_lower)
     for attribute in config.shape_dict['Risk Object']:
         risk_object = line.addSubTopic()
         risk_object.setTitle(attribute['NAME'])

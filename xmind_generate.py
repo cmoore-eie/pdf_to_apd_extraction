@@ -3,10 +3,12 @@ from datetime import date
 import xmind
 
 import config
-import product_shape_go
+import product_shape_stock
 from constants import markers
 import product_shape_private_motor
 import product_shape_home
+from product_shapes import shape_to_dict
+from utility import add_xmind_attributes, add_xmind_coverages
 
 standard_term_types = {
     'Sum Insured': markers['money'],
@@ -33,7 +35,7 @@ def apply_product_shape(line, coverages):
     if config.product_shape_lower == 'private motor':
         product_shape_private_motor.apply_shape(line, coverages)
         return
-    if config.product_shape_lower == 'go':
+    if config.is_stock_product:
         product_shape_go.apply_shape(line, coverages)
         return
 
@@ -98,11 +100,20 @@ def apply_about(line):
 
     line_about_description = line_about.addSubTopic()
     line_about_description.setTitle('Description')
+    if config.is_stock_product:
+        description = f'Built from Stock Product = {config.stock_product}'
+    else:
+        description = f'Auto Generated {config.product_shape} product'
     info = line_about_description.addSubTopic()
-    info.setTitle('Short information about the product')
+    info.setTitle(description)
 
 
 def build_sheet(sheet1, coverages):
+    if config.is_stock_product:
+        shape_to_dict(config.stock_product_lower)
+    else:
+        shape_to_dict(config.product_shape_lower)
+
     sheet1.setTitle("Product")
 
     product = sheet1.getRootTopic()
@@ -124,8 +135,14 @@ def build_sheet(sheet1, coverages):
     line_attribute = line.addSubTopic()
     line_attribute.setTitle("Attributes")
 
+    if 'Line Attributes' in config.shape_dict.keys():
+        add_xmind_attributes(line_attribute, 'Line Attributes', 'Line Attribute Category')
+
     line_coverage = line.addSubTopic()
     line_coverage.setTitle("Coverages")
+
+    if 'Line Coverages' in config.shape_dict.keys():
+        add_xmind_coverages(config.shape_dict['Line Coverages'], line_coverage, 'Line Coverage Category')
 
     line_exclusions = line.addSubTopic()
     line_exclusions.setTitle("Exclusions")

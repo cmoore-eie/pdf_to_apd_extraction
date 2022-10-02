@@ -6,8 +6,8 @@ def shape_to_dict(shape):
     if len(config.shape_dict.keys()) > 0:
         return config.shape_dict
 
-    if config.product_shape_lower == 'go':
-        test_product_shape = config.go_product_lower
+    if config.is_stock_product:
+        test_product_shape = config.stock_product_lower
     else:
         test_product_shape = config.product_shape_lower
 
