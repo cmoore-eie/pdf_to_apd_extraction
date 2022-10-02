@@ -27,10 +27,10 @@ def build_rules(rule_file, matcher):
 def build_matcher_rules(matcher):
     product_shape = config.config_dict['Product Information']['product_shape']
 
-    build_rules('rules_other.json', matcher)
+    build_rules(f'{config.json_store}rules_other.json', matcher)
 
     if product_shape.lower() == 'motor':
-        build_rules('rules_motor.json', matcher)
+        build_rules(f'{config.json_store}rules_motor.json', matcher)
 
     if product_shape.lower() == 'home':
-        build_rules('rules_home.json', matcher)
+        build_rules(f'{config.json_store}rules_home.json', matcher)

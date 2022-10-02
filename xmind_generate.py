@@ -3,7 +3,7 @@ from datetime import date
 import xmind
 
 import config
-import product_shape_stock
+import product_shape_regular
 from constants import markers
 import product_shape_private_motor
 import product_shape_home
@@ -35,8 +35,8 @@ def apply_product_shape(line, coverages):
     if config.product_shape_lower == 'private motor':
         product_shape_private_motor.apply_shape(line, coverages)
         return
-    if config.is_stock_product:
-        product_shape_go.apply_shape(line, coverages)
+    if config.is_regular_product:
+        product_shape_regular.apply_shape(line)
         return
 
     apply_standard_product_shape(line, coverages)
@@ -76,7 +76,7 @@ def apply_standard_product_shape(line, coverages):
         new_coverage = risk_object_coverage_category.addSubTopic()
         new_coverage.setTitle(coverages[coverage])
         new_coverage.addMarker(markers['coverage'])
-        standard_terms(new_coverage, config.config_dict)
+        standard_terms(new_coverage)
 
 
 def apply_about(line):
@@ -100,8 +100,8 @@ def apply_about(line):
 
     line_about_description = line_about.addSubTopic()
     line_about_description.setTitle('Description')
-    if config.is_stock_product:
-        description = f'Built from Stock Product = {config.stock_product}'
+    if config.is_regular_product:
+        description = f'Built from Regular Product = {config.regular_product}'
     else:
         description = f'Auto Generated {config.product_shape} product'
     info = line_about_description.addSubTopic()
@@ -109,8 +109,8 @@ def apply_about(line):
 
 
 def build_sheet(sheet1, coverages):
-    if config.is_stock_product:
-        shape_to_dict(config.stock_product_lower)
+    if config.is_regular_product:
+        shape_to_dict(config.regular_product_lower)
     else:
         shape_to_dict(config.product_shape_lower)
 

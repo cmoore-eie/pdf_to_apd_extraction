@@ -24,7 +24,6 @@ def remove_cover_words():
     XXX Coverage, the word coverage adds clutter to the generated mind map. If the option
     remove_coverage_from_label is set to Yes or True the coverage clutter will be removed.
 
-    :param config_dict The configuration file dictionary representation
     :return bool
     """
     remove_words = False
@@ -40,7 +39,6 @@ def read_document(nlp):
     Reads the PDF identified in the configuration file Base Information -> input_document
 
     :param nlp The loaded nlp object
-    :param config_dict The configuration file dictionary representation
     :return spaCy Doc
     """
     wise_monkey_says('Reading Document, this will take but a moment')
@@ -77,21 +75,22 @@ def apply_rules(nlp, doc):
 def process():
     config.product_shape = config.config_dict['Product Information']['product_shape']
     config.product_shape_lower = config.product_shape.lower()
-    if config.product_shape_lower == 'stock':
-        config.is_stock_product = True
+    if config.product_shape_lower == 'regular':
+        config.is_regular_product = True
     else:
-        config.is_stock_product = False
+        config.is_regular_product = False
     if not ('input_document' in config.config_dict['Base Information']):
         wise_monkey_says(f'No Input file given, generating only the shape for {config.product_shape}')
         coverages = dict()
-    elif config.is_stock_product:
-        if 'stock_product'in config.config_dict['Product Information'].keys():
-            config.stock_product = config.config_dict['Product Information']['stock_product']
-            config.stock_product_lower = config.stock_product.lower()
-            wise_monkey_says(f'Looks like you are creating a GO product based on {config.stock_product}')
+    elif config.is_regular_product:
+        if 'regular_product' in config.config_dict['Product Information'].keys():
+            config.regular_product = config.config_dict['Product Information']['regular_product']
+            config.regular_product_lower = config.regular_product.lower()
+            wise_monkey_says(f'Looks like you are creating a GO product based on {config.regular_product}')
             coverages = dict()
         else:
-            wise_monkey_says(f'If you want to build a stock product please set "stock_product" in the conficuration file')
+            wise_monkey_says(
+                f'If you want to build a regular product please set "regular_product" in the conficuration file')
             wise_monkey_says(f'We will try again after you correct the configuration file')
             sys.exit(1)
     else:

@@ -9,7 +9,7 @@ def add_xmind_attributes(attributes, attribute_key='Attributes', category_key='A
     """ Add attributes to the mind map
 
     Using the Json file that contains the information about the product shape the first set of
-    attributes that are not attached to a category are processed first, this ensure they appear
+    attributes that are not attached to a category are processed first, this ensures they appear
     as the first set of attribute.
 
     The second part of the process adds the categories and processes the attributes
@@ -110,6 +110,7 @@ def add_xmind_coverages(coverages, topic, category_key='Coverage Category'):
 
     :parameter coverages (list) A list of coverage dicts
     :parameter topic (topic) The base topic to attach the coverages to
+    :parameter category_key The dictionary key for the coverage categories
     """
     coverage_categories = add_coverage_categories(config.shape_dict, topic, category_key)
     for coverage in coverages:

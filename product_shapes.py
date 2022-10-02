@@ -6,13 +6,13 @@ def shape_to_dict(shape):
     if len(config.shape_dict.keys()) > 0:
         return config.shape_dict
 
-    if config.is_stock_product:
-        test_product_shape = config.stock_product_lower
+    if config.is_regular_product:
+        test_product_shape = config.regular_product_lower
     else:
         test_product_shape = config.product_shape_lower
 
     if test_product_shape in config.shape_files.keys():
-        shape_file = config.shape_files[test_product_shape]
+        shape_file = config.json_store + config.shape_files[test_product_shape]
         with open(shape_file) as json_file:
             config.shape_dict = json.load(json_file)
             return config.shape_dict
@@ -22,7 +22,7 @@ def shape_to_dict(shape):
 
 
 def dropdown_to_dict(dropdown_name):
-    shape_file = config.shape_files['dropdown']
+    shape_file = config.json_store + config.shape_files['dropdown']
     with open(shape_file) as json_file:
         data = json.load(json_file)
         if dropdown_name in data.keys():

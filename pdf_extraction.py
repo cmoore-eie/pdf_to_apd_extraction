@@ -4,6 +4,7 @@ import sys
 
 import config
 import pdf_processor
+from utility import wise_monkey_says
 
 version_number = '0.3'
 process_errors = dict()
@@ -58,6 +59,12 @@ def main(argv):
             conf = configparser.ConfigParser()
             conf.read(config_file)
             config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
+            if 'json_store' in config.config_dict['Base Information'].keys():
+                config.json_store = config.config_dict['Base Information']['json_store']
+            else:
+                wise_monkey_says('You forgot to tell me where the json files can be found')
+                wise_monkey_says('if you set the json_sote in the configuration file we can try again')
+                sys.exit(1)
             pdf_processor.process()
         except OSError:
             print(f'ERROR - The configuration file {config_file} has not been found')
