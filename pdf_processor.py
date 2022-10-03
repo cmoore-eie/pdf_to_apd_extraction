@@ -1,7 +1,7 @@
 """ The main processing module
 
 The import file defined in the configuration is read in and processed.
-Once tokenised the information is handed off to the generation of the
+Once tokenized the information is handed off to the generation of the
 mind map.
 """
 import sys
@@ -14,7 +14,7 @@ import config
 import constants
 import rules
 from constants import coverage_words
-from utility import wise_monkey_says, to_title, load_phrase_files
+from utility import wise_monkey_says, to_title, load_phrase_files, write_tokens
 from xmind_generate import generate_xmind
 
 spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
@@ -41,7 +41,7 @@ def read_document(nlp):
 
     Reads the PDF identified in the configuration file Base Information -> input_document
     The process will pass the information through the processing twice, while the first pass
-    could be written to specificly convert pdf to text, this process would not save much
+    could be written to specific convert pdf to text, this process would not save much
     time as the conversion to text take the majority of the processing. Other conversions
     have been tested and none are as accurate.
 
@@ -69,7 +69,12 @@ def read_document(nlp):
 
     return doc
 
+
 def apply_phrase_rules(nlp):
+    """Adds the phrases to be searched for and processes the document
+
+    Phrases are added as a first search in the document,
+    """
     wise_monkey_says('Building and applying Phrase Rules')
     new_matcher = PhraseMatcher(nlp.vocab)
 
@@ -78,7 +83,6 @@ def apply_phrase_rules(nlp):
     new_matcher.add("COVERAGE_PATTERN", patterns)
 
     doc = read_document(nlp)
-
 
     coverages = dict()
     matches = new_matcher(doc)
@@ -100,6 +104,7 @@ def apply_phrase_rules(nlp):
             added_name = proper_name
         coverages[added_name] = {'NAME': added_name, 'CATEGORY': 'Primary Coverages'}
     return coverages, doc
+
 
 def apply_rules(nlp, doc):
     wise_monkey_says('Building and applying Matcher Rules')
@@ -133,7 +138,7 @@ def process():
 
     Processes the PDF file if it is available, this will first perform phrase matching
     then apply rules matching to derive a set of coverages. When there is not input file
-    given the mind map will corrispond to the product shape defined in the configuration
+    given the mind map will correspond to the product shape defined in the configuration
     file.
 
     If a regular mind map is to be generated the regular product defined in the
@@ -156,14 +161,14 @@ def process():
             coverages = dict()
         else:
             wise_monkey_says(
-                f'If you want to build a regular product please set "regular_product" in the conficuration file')
+                f'If you want to build a regular product please set "regular_product" in the configuration file')
             wise_monkey_says(f'We will try again after you correct the configuration file')
             sys.exit(1)
     else:
         nlp = spacy.load("en_core_web_sm")
         spacy_punctuation = spacy.lang.en.punctuation
         phrase_coverages, doc = apply_phrase_rules(nlp)
-        write_tokens()
+        write_tokens(doc)
         rule_coverages = apply_rules(nlp, doc)
         merged_coverages = dict()
 

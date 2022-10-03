@@ -59,12 +59,12 @@ def main(argv):
             conf = configparser.ConfigParser()
             conf.read(config_file)
             config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
-            if 'json_store' in config.config_dict['Base Information'].keys():
-                config.json_store = config.config_dict['Base Information']['json_store']
+            if 'json_store_location' in config.config_dict['Base Information'].keys():
+                config.json_store_location = config.config_dict['Base Information']['json_store_location']
                 load_shape_files()
             else:
                 wise_monkey_says('You forgot to tell me where the json files can be found')
-                wise_monkey_says('if you set the json_sote in the configuration file we can try again')
+                wise_monkey_says('if you set the json_store in the configuration file we can try again')
                 sys.exit(1)
             pdf_processor.process()
         except OSError:

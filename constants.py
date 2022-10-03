@@ -29,4 +29,6 @@ markers['text'] = 'gw_text'
 #
 common_conversions = dict()
 common_conversions['Loss Rent'] = 'Loss of Rent'
+common_conversions['Selling Home'] = 'Selling Your Home'
+common_conversions['Increased Cost Working'] = 'Increased Cost of Working'
 

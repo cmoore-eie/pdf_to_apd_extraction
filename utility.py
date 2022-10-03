@@ -1,4 +1,5 @@
 import json
+import os.path
 import re
 
 import config
@@ -155,6 +156,11 @@ def wise_monkey_says(message):
     print(to_say)
 
 
+def wise_monkey_says_oops(message):
+    to_say = f'Wise Monkey OOPS - {message}'
+    print(to_say)
+
+
 def to_title(string):
     regex = re.compile("[a-z]+('[a-z]+)?", re.I)
     return regex.sub(lambda grp: grp.group(0)[0].upper() + grp.group(0)[1:].lower(),
@@ -162,18 +168,21 @@ def to_title(string):
 
 
 def load_shape_files():
-    file = config.json_store + 'shape_files.json'
+    file = config.json_store_location + 'json_store.json'
     with open(file) as json_file:
         list_items = json.load(json_file)['Json Store']
         for item in list_items:
-            config.shape_files.update(item)
+            config.json_store_files.update(item)
+
 
 def load_phrase_files():
-    file = config.json_store + 'rules_phrase_home.json'
-    with open(file) as json_file:
-        list_items = json.load(json_file)['Phrases']
-        for item in list_items:
-            config.matcher_phrases.append(item['NAME'])
+    file_key = f'{config.product_shape_lower} phrases'
+    file_path = f'{config.json_store_location}{config.json_store_files[file_key]}'
+    if os.path.exists(file_path):
+        with open(file_path) as json_file:
+            list_items = json.load(json_file)['Phrases']
+            for item in list_items:
+                config.matcher_phrases.append(item['NAME'])
 
 
 def write_tokens(doc):

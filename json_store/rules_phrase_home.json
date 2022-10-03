@@ -30,6 +30,7 @@
     {"NAME": "Food spoilage"},
     {"NAME": "Freezer contents"},
     {"NAME": "HOME AND DETACHED STRUCTURES"},
+    {"NAME": "Increased cost working"},
     {"NAME": "Increased water charges"},
     {"NAME": "Landscaping, trees, plants and lawns"},
     {"NAME": "Legal liability as tenant"},
@@ -51,6 +52,7 @@
     {"NAME": "Removed fixtures and fittings"},
     {"NAME": "Removing nests"},
     {"NAME": "Replacement locks"},
+    {"NAME": "Retrieving data"},
     {"NAME": "Sale of the home"},
     {"NAME": "Seasonal increases/gifts"},
     {"NAME": "Spare automobile parts"},
@@ -65,6 +67,7 @@
     {"NAME": "Valuables"},
     {"NAME": "Visitors’ and non-resident domestic employees’ possessions"},
     {"NAME": "Watercraft"},
+    {"NAME": "Your home and personal possessions"},
     {"NAME": "Your liability"},
     {"NAME": "Your personal property"}
   ]

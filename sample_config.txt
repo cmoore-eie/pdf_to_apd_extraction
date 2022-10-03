@@ -1,7 +1,8 @@
 [Base Information]
-input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/beazley-home-insurance-wording.pdf
+# input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/beazley-home-insurance-wording.pdf
+input_document = /Users/cmoore/Library/CloudStorage/OneDrive-GuidewireSoftwareInc/PolicyWordings/13186-home-insurance-policy-wording.pdf
 output_document = /Users/cmoore/Development/SampleData/MyProduct.xmind
-json_store = json_store/
+json_store_location = json_store/
 
 [Product Information]
 # product_shape = Home / Commercial Building / Private Motor / Other / SME / Regular

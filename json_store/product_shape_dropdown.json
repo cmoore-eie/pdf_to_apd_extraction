@@ -1,5 +1,5 @@
 {
-  "Emplyee Type": [
+  "Employee Type": [
     {"NAME": "Housekeepers", "LABEL": "Housekeepers"},
     {"NAME": "Gardeners", "LABEL": "Gardeners"},
     {"NAME": "Cleaners", "LABEL": "Cleaners"}

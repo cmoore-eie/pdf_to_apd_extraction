@@ -57,7 +57,7 @@ def apply_standard_product_shape(line, coverages):
     risk_object_coverage = risk_object.addSubTopic()
     risk_object_coverage.setTitle("Coverages")
     risk_object_coverage_category = risk_object_coverage.addSubTopic()
-    risk_object_coverage_category.setTitle("Standard Coverages")
+    risk_object_coverage_category.setTitle("Primary Coverages")
     risk_object_coverage_category.addMarker(markers['clause_category'])
 
     risk_object_exclusions = risk_object.addSubTopic()

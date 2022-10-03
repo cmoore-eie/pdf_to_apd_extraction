@@ -16,7 +16,7 @@
     [{"LEMMA": "building", "IS_TITLE": "True", "POS": "NOUN"}, {"LOWER": "option", "IS_TITLE": "True", "POS": "PROPN"}]
   ],
 
-  "business_recors": [
+  "business_records": [
     [{"LOWER": "business", "IS_TITLE": "True", "POS": "NOUN"}, {"LEMMA": "record"}]
   ],
 
@@ -88,7 +88,7 @@
 
   "home_sale_coverage": [
     [{"LEMMA": "sale"}, {}, {}, {"LEMMA": "home"}],
-    [{"LEMMA": "sell"}, {}, {"LEMMA": "home"}]
+    [{"LEMMA": "sell"}, {"LEMMA": "home"}]
   ],
 
   "hunter": [
@@ -100,7 +100,7 @@
   ],
 
   "increased_cost_of_working": [
-    [{"LEMMA": "increase"}, {"LEMMA": "cost"}, {"LOWER": "of"}, {"LEMMA": "work"}]
+    [{"LEMMA": "increase"}, {"LEMMA": "cost"}, {"LEMMA": "work"}]
   ],
 
   "increased_water_charges": [
@@ -142,7 +142,8 @@
   ],
 
   "personal_belongings": [
-    [{"LEMMA": "personal"}, {"LEMMA": "belonging"}]
+    [{"LEMMA": "personal"}, {"LEMMA": "belonging"}],
+    [{"LOWER": "personal"}, {"LOWER": "possessions"}]
   ],
 
   "personal_property_care_facility": [
@@ -214,7 +215,7 @@
   "trace_access_coverage": [
     [{"LEMMA": "trace"}, {}, {"LEMMA": "access"}, {"LEMMA": "cover"}],
     [{"LEMMA": "trace"}, {}, {"LEMMA": "access"}, {"LEMMA": "leak"}],
-    [{"LEMMA": "trace"}, {}, {"LEMMA": "leak"}]
+    [{"LEMMA": "trace"}, {"LEMMA": "leak"}]
   ],
 
   "under_construction_coverage": [
