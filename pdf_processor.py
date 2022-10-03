@@ -185,4 +185,5 @@ def process():
     generate_xmind(coverages)
 
     wise_monkey_says('All done and you are welcome, it is always a pleasure to help')
+    wise_monkey_says(f'You will find the mind map at {config.output_file_location}')
     wise_monkey_says('Please deposit one banana for services rendered')

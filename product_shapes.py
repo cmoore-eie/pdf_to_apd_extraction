@@ -15,7 +15,7 @@ def shape_to_dict(shape):
         test_product_shape = config.product_shape_lower
 
     if test_product_shape in config.json_store_files.keys():
-        file_path = config.json_store_location + config.json_store_files[config.product_shape_lower]
+        file_path = config.json_store_location + config.json_store_files[test_product_shape]
         if os.path.exists(file_path):
             with open(file_path) as json_file:
                 config.shape_dict = json.load(json_file)

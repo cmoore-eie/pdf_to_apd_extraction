@@ -1,3 +1,4 @@
+version_number = '0.4'
 #
 # When coverage words are to be removed it will check against this list and not add the name to the label of the
 # topic
@@ -31,4 +32,13 @@ common_conversions = dict()
 common_conversions['Loss Rent'] = 'Loss of Rent'
 common_conversions['Selling Home'] = 'Selling Your Home'
 common_conversions['Increased Cost Working'] = 'Increased Cost of Working'
+common_conversions['Trace Access'] = 'Trace and Access'
+common_conversions['Theft Outbuildings'] = 'Theft from Outbuildings'
+common_conversions['Contents University'] = 'Contents at University'
+common_conversions['Contents Temporarily Away Home'] = 'Contents Temporarily Away from Home'
+common_conversions['Theft Unattended Motor Vehicle'] = 'Theft from Unattended Motor Vehicle'
+common_conversions['Loss Theft Keys'] = 'Loss or Theft of Keys'
+common_conversions['Water Oil Escaping'] = 'Water or Oil Escaping'
+common_conversions['Storm Flood'] = 'Storm or Flood'
+common_conversions['Theft Attempted Theft'] = 'Theft or Attempted Theft'
 

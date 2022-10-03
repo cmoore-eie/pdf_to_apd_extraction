@@ -1,12 +1,13 @@
 import configparser
 import getopt
 import sys
+import time
 
 import config
+import constants
 import pdf_processor
 from utility import wise_monkey_says, load_shape_files
 
-version_number = '0.3'
 process_errors = dict()
 help_str = '''
 
@@ -20,10 +21,11 @@ Please supply the arguments for -c
 def print_logo():
     f = open('logo.txt', 'r')
     print(''.join([line for line in f]))
-    print(f"Version - {version_number}")
+    print(f"Version - {constants.version_number}")
 
 
 def main(argv):
+    config.start_process_time = time.perf_counter()
     print("")
     print_logo()
     print("")
@@ -55,21 +57,26 @@ def main(argv):
         for error_item in process_errors:
             print(f"({error_item}) : {process_errors[error_item]}")
     else:
-        try:
-            conf = configparser.ConfigParser()
-            conf.read(config_file)
-            config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
-            if 'json_store_location' in config.config_dict['Base Information'].keys():
-                config.json_store_location = config.config_dict['Base Information']['json_store_location']
-                load_shape_files()
-            else:
-                wise_monkey_says('You forgot to tell me where the json files can be found')
-                wise_monkey_says('if you set the json_store in the configuration file we can try again')
-                sys.exit(1)
-            pdf_processor.process()
-        except OSError:
-            print(f'ERROR - The configuration file {config_file} has not been found')
+
+        conf = configparser.ConfigParser()
+        read_files = conf.read(config_file)
+        if len(read_files) == 0:
+            wise_monkey_says(f"Configuration file {config_file} can't be found")
             sys.exit(1)
+        config.config_dict = {s: dict(conf.items(s)) for s in conf.sections()}
+
+        if 'json_store_location' in config.config_dict['Base Information'].keys():
+            config.json_store_location = config.config_dict['Base Information']['json_store_location']
+            load_shape_files()
+        else:
+            wise_monkey_says('You forgot to tell me where the json files can be found')
+            wise_monkey_says('if you set the json_store in the configuration file we can try again')
+            sys.exit(1)
+        pdf_processor.process()
+        config.end_process_time = time.perf_counter()
+        elapsed = config.end_process_time - config.start_process_time
+        wise_monkey_says(f'For Reference the process tool {elapsed} seconds')
+
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import json
 import os.path
 import re
-
+import sys
 import config
 from product_shapes import shape_to_dict, dropdown_to_dict, is_related
 from constants import markers
@@ -24,20 +24,28 @@ def add_xmind_attributes(attributes, attribute_key='Attributes', category_key='A
             if not ('CATEGORY' in attribute):
                 add_attribute(attribute, attributes, config.shape_dict)
 
-    question_category_topic = add_question_categories(config.shape_dict, attributes, category_key)
+    question_category_topic = add_question_categories(attributes, category_key)
     for attribute in config.shape_dict[attribute_key]:
         if 'CATEGORY' in attribute:
             if not (is_related(config.shape_dict, attribute['NAME'])):
                 add_attribute(attribute, attributes, config.shape_dict, question_category_topic)
 
 
-#
-# Added the question categories
-#
-def add_question_categories(shape_dict, topic, category_key):
+def add_question_categories(topic, category_key):
+    """ Adds the question (Attribute) categories to the mind map
+
+    Question Categories are added to the topic that is passed in,
+    as there could be multiple added at the same time the new
+    topics (Question Categores) are added to a dictionary that
+    is used to add the correct attributes to the correct question
+    categories
+
+    :parameter topic The topic that will be used to add the question categories to
+    :parameter category_key The key to the category section, 'Attribute Category', 'Line Attribute Category'
+    """
     question_category_topic = dict()
-    if category_key in shape_dict:
-        for question_category in shape_dict[category_key]:
+    if category_key in config.shape_dict:
+        for question_category in config.shape_dict[category_key]:
             item = topic.addSubTopic()
             item.setTitle(question_category['NAME'])
             item.addMarker(markers[question_category['TYPE']])
@@ -56,6 +64,34 @@ def add_coverage_categories(shape_dict, topic, category_key):
                 item.addLabel(coverage_category['LABEL'])
             coverage_category_topic[coverage_category['NAME']] = item
     return coverage_category_topic
+
+
+def add_dropdown(attribute, item):
+    if 'LIST' in attribute.keys():
+        dropdown_name = attribute['LIST']
+    else:
+        dropdown_name = attribute['NAME']
+    if 'OPTIONS' in attribute.keys():
+        dropdown_data = attribute['OPTIONS']
+    else:
+        dropdown_data = dropdown_to_dict(dropdown_name)
+
+    for dropdown_value in dropdown_data:
+        if type(dropdown_value) == dict:
+            item_option = item.addSubTopic()
+            item_option.setTitle(dropdown_value['NAME'])
+            if 'TYPE' in dropdown_value.keys():
+                item_option.addMarker(markers[dropdown_value['TYPE']])
+            else:
+                item_option.addMarker(markers['text'])
+            if 'LABEL' in dropdown_value.keys():
+                item_option.addLabel(dropdown_value['LABEL'])
+            extract_related(config.shape_dict, attribute['NAME'], dropdown_value['NAME'], item_option)
+        else:
+            item_option = item.addSubTopic()
+            item_option.setTitle(dropdown_value)
+            item_option.addMarker(markers['text'])
+            extract_related(config.shape_dict, attribute['NAME'], dropdown_value, item_option)
 
 
 def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
@@ -77,31 +113,7 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
             add_attribute(attribute_attribute, item, config.shape_dict)
 
     if attribute['TYPE'] == 'dropdown':
-        if 'LIST' in attribute.keys():
-            dropdown_name = attribute['LIST']
-        else:
-            dropdown_name = attribute['NAME']
-        if 'OPTIONS' in attribute.keys():
-            dropdown_data = attribute['OPTIONS']
-        else:
-            dropdown_data = dropdown_to_dict(dropdown_name)
-
-        for dropdown_value in dropdown_data:
-            if type(dropdown_value) == dict:
-                item_option = item.addSubTopic()
-                item_option.setTitle(dropdown_value['NAME'])
-                if 'TYPE' in dropdown_value.keys():
-                    item_option.addMarker(markers[dropdown_value['TYPE']])
-                else:
-                    item_option.addMarker(markers['text'])
-                if 'LABEL' in dropdown_value.keys():
-                    item_option.addLabel(dropdown_value['LABEL'])
-                extract_related(shape_dict, attribute['NAME'], dropdown_value['NAME'], item_option)
-            else:
-                item_option = item.addSubTopic()
-                item_option.setTitle(dropdown_value)
-                item_option.addMarker(markers['text'])
-                extract_related(shape_dict, attribute['NAME'], dropdown_value, item_option)
+        add_dropdown(attribute, item)
     return item
 
 
@@ -169,10 +181,14 @@ def to_title(string):
 
 def load_shape_files():
     file = config.json_store_location + 'json_store.json'
-    with open(file) as json_file:
-        list_items = json.load(json_file)['Json Store']
-        for item in list_items:
-            config.json_store_files.update(item)
+    try:
+        with open(file) as json_file:
+            list_items = json.load(json_file)['Json Store']
+            for item in list_items:
+                config.json_store_files.update(item)
+    except:
+        wise_monkey_says_oops(f"The json file json_store.json can't be processed")
+        sys.exit(1)
 
 
 def load_phrase_files():

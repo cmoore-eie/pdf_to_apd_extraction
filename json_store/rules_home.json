@@ -20,6 +20,14 @@
     [{"LOWER": "business", "IS_TITLE": "True", "POS": "NOUN"}, {"LEMMA": "record"}]
   ],
 
+  "cerimonial_occasions": [
+    [{"LOWER": "birth"}, {"LOWER": "child"}, {"POS": "PUNCT", "OP": "?"}, {"LOWER": "religious"}, {"LEMMA": "festival"}]
+  ],
+
+  "contents_temporarily_away": [
+    [{"LOWER": "contents"}, {"LOWER": "temporarily"}, {"LOWER": "away"}, {"LOWER": "home"}]
+  ],
+
   "debris_removal": [
     [{"LOWER": "debris"}, {"LOWER": "removal"}]
   ],
@@ -41,8 +49,16 @@
     [{"LEMMA": "employee"}, {"LEMMA": "compensation"}, {"LEMMA": "coverage"}]
   ],
 
+  "employers_liability": [
+    [{"LOWER": "employer"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "liability"}]
+  ],
+
   "engineering": [
     [{"LOWER": "engineering", "IS_TITLE": "True", "POS": "PROPN"}]
+  ],
+
+  "escape_water": [
+    [{"LOWER": "water"}, {"LOWER": "oil"}, {"LOWER": "escaping"}]
   ],
 
   "fine_arts": [
@@ -50,7 +66,8 @@
   ],
 
   "flood_coverage": [
-    [{"LEMMA": "flood"}, {"LEMMA": "coverage"}]
+    [{"LEMMA": "flood"}, {"LEMMA": "coverage"}],
+    [{"LOWER": "storm"}, {"LOWER": "flood"}]
   ],
 
   "garden_cover": [
@@ -59,6 +76,10 @@
 
   "glass_coverage": [
     [{"LEMMA": "Glass"}, {"LEMMA": "coverage"}]
+  ],
+
+  "guest_belongings": [
+    [{"LOWER": "guests"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "belonging"}]
   ],
 
   "home_alterations_coverage": [
@@ -124,6 +145,11 @@
     [{"LOWER": "lightning", "IS_TITLE": "True"}]
   ],
 
+  "loss_keys": [
+    [{"LOWER": "loss"}, {"LOWER": "keys"}],
+    [{"LOWER": "loss"}, {"LOWER": "theft"}, {"LOWER": "keys"}]
+  ],
+
   "metered_water": [
     [{"LOWER": "metered"}, {"LOWER": "water"}]
   ],
@@ -138,7 +164,8 @@
 
   "pedal_cycle_cover": [
     [{"LEMMA": "pedal"}, {"LEMMA": "cycle"}, {"LOWER": "cover"}],
-    [{"LOWER": "bicycle"}, {"LOWER": "cover"}]
+    [{"LOWER": "bicycle"}, {"LOWER": "cover"}],
+    [{"LOWER": "bicycles"}]
   ],
 
   "personal_belongings": [
@@ -152,6 +179,10 @@
 
   "property": [
     [{"LOWER": "property", "IS_TITLE": "True", "POS": "NOUN"}]
+  ],
+
+  "property_liability": [
+    [{"LOWER": "property"}, {"LOWER": "owners"}, {"POS": "PUNCT", "OP": "?"}, {"LOWER": "liability"}]
   ],
 
   "removed_fixtures": [
@@ -201,21 +232,39 @@
   ],
 
   "student_belongings": [
-    [{"LEMMA": "student"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "belonging"}]
+    [{"LEMMA": "student"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "belonging"}],
+    [{"LOWER": "contents"}, {"LOWER": "university"}]
   ],
 
   "tenant_improvement": [
     [{"LEMMA": "tenant"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "improvement"}]
   ],
 
+  "tenant_liability": [
+    [{"LOWER": "tenant"}, {"POS": "PART", "OP": "?"}, {"LEMMA": "liability"}]
+  ],
+
   "terrorism": [
     [{"LOWER": "terrorism", "IS_TITLE": "True", "POS": "PROPN"}]
+  ],
+
+  "theft_contents": [
+    [{"LOWER": "theft"}, {"LOWER": "attempted"}, {"LOWER": "theft"}]
+  ],
+
+  "theft_outbuildings": [
+    [{"LOWER": "theft"}, {"LEMMA": "outbuilding"}]
+  ],
+
+  "theft_unattended_motor_vehicle": [
+    [{"LOWER": "theft"}, {"LOWER": "unattended"}, {"LOWER": "motor"}, {"LOWER": "vehicle"}]
   ],
 
   "trace_access_coverage": [
     [{"LEMMA": "trace"}, {}, {"LEMMA": "access"}, {"LEMMA": "cover"}],
     [{"LEMMA": "trace"}, {}, {"LEMMA": "access"}, {"LEMMA": "leak"}],
-    [{"LEMMA": "trace"}, {"LEMMA": "leak"}]
+    [{"LEMMA": "trace"}, {"LEMMA": "leak"}],
+    [{"LOWER": "trace"}, {"LOWER": "access"}]
   ],
 
   "under_construction_coverage": [

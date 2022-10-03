@@ -154,10 +154,10 @@ def build_sheet(sheet1, coverages):
 
 
 def generate_xmind(coverages):
-    output_file = config.config_dict['Base Information']['output_document']
-    shutil.copyfile('APDBase.xmind', output_file)
-    workbook = xmind.load(output_file)
+    config.output_file_location = config.config_dict['Base Information']['output_document']
+    shutil.copyfile('APDBase.xmind', config.output_file_location)
+    workbook = xmind.load(config.output_file_location)
     sheet1 = workbook.getPrimarySheet()
     build_sheet(sheet1, coverages)
 
-    xmind.save(workbook, path=output_file)
+    xmind.save(workbook, path=config.output_file_location)
