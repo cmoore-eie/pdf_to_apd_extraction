@@ -5,6 +5,7 @@ import time
 
 import config
 import constants
+import logo
 import pdf_processor
 from utility import wise_monkey_says, load_shape_files
 
@@ -19,15 +20,14 @@ Please supply the arguments for -c
 
 
 def print_logo():
-    f = open('logo.txt', 'r')
+    f = open('logo.py', 'r')
     print(''.join([line for line in f]))
     print(f"Version - {constants.version_number}")
 
 
 def main(argv):
     config.start_process_time = time.perf_counter()
-    print("")
-    print_logo()
+    print(logo.logo_image)
     print("")
     config_file: str = ''
 
@@ -75,7 +75,8 @@ def main(argv):
         pdf_processor.process()
         config.end_process_time = time.perf_counter()
         elapsed = config.end_process_time - config.start_process_time
-        wise_monkey_says(f'For Reference the process tool {elapsed} seconds')
+        elapsed_format = '{:.2f}'.format(elapsed)
+        wise_monkey_says(f'For Reference the process tool {elapsed_format} seconds')
 
 
 

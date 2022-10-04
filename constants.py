@@ -1,4 +1,5 @@
 version_number = '0.4'
+
 #
 # When coverage words are to be removed it will check against this list and not add the name to the label of the
 # topic
@@ -41,4 +42,3 @@ common_conversions['Loss Theft Keys'] = 'Loss or Theft of Keys'
 common_conversions['Water Oil Escaping'] = 'Water or Oil Escaping'
 common_conversions['Storm Flood'] = 'Storm or Flood'
 common_conversions['Theft Attempted Theft'] = 'Theft or Attempted Theft'
-
