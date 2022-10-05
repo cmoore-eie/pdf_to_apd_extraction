@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import config
+import constants
 import utility
 
 
@@ -40,7 +41,7 @@ def dropdown_to_dict(dropdown_name):
             return []
 
 
-def is_related(shape_dict, child):
+def is_related(json_object, child):
     """Identifies if the attribute is a child in the relationship
 
     if the child is part of a defined relationship it will be created when the dropdown values of the parent are
@@ -50,9 +51,9 @@ def is_related(shape_dict, child):
     :parameter child the attribute to search for
     :return bool False if the child is not related otherwise it will return True
     """
-    if 'Related' not in shape_dict.keys():
+    if constants.json_keys['related'] not in json_object.keys():
         return False
-    related = shape_dict['Related']
+    related = json_object[constants.json_keys['related']]
     for relationship in related:
         if relationship['CHILD'] == child:
             return True

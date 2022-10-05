@@ -3,11 +3,12 @@ import os.path
 import re
 import sys
 import config
+import constants
 from product_shapes import shape_to_dict, dropdown_to_dict, is_related
 from constants import markers
 
 
-def add_xmind_attributes(attributes, attribute_key='Attributes', category_key='Attribute Category'):
+def add_xmind_attributes(topic, json_object):
     """ Add attributes to the mind map
 
     Using the Json file that contains the information about the product shape the first set of
@@ -16,22 +17,28 @@ def add_xmind_attributes(attributes, attribute_key='Attributes', category_key='A
 
     The second part of the process adds the categories and processes the attributes
     that are attached to the category.
+
+    :parameter topic The topic used for attachment
+    :parameter json_object json containing the object structure
     """
-    product_shape = config.config_dict['Product Information']['product_shape']
-    shape_to_dict(product_shape)
-    for attribute in config.shape_dict[attribute_key]:
-        if not (is_related(config.shape_dict, attribute['NAME'])):
-            if not ('CATEGORY' in attribute):
-                add_attribute(attribute, attributes, config.shape_dict)
+    # product_shape = config.config_dict['Product Information']['product_shape']
+    # shape_to_dict(product_shape)
 
-    question_category_topic = add_question_categories(attributes, category_key)
-    for attribute in config.shape_dict[attribute_key]:
-        if 'CATEGORY' in attribute:
-            if not (is_related(config.shape_dict, attribute['NAME'])):
-                add_attribute(attribute, attributes, config.shape_dict, question_category_topic)
+    attributes = json_object[constants.json_keys['attributes']]
+    for attribute in attributes:
+        if not (is_related(json_object, attribute['NAME'])):
+            if not (constants.json_keys['category'] in attribute):
+                add_attribute(attribute, topic, json_object)
+
+    if constants.json_keys['attribute_category'] in json_object.keys():
+        question_category_topic = add_question_categories(topic, json_object)
+        for attribute in attributes:
+            if constants.json_keys['category'] in attribute.keys():
+                if not (is_related(json_object, attribute['NAME'])):
+                    add_attribute(attribute, topic, json_object, question_category_topic)
 
 
-def add_question_categories(topic, category_key):
+def add_question_categories(topic, json_object):
     """ Adds the question (Attribute) categories to the mind map
 
     Question Categories are added to the topic that is passed in,
@@ -44,19 +51,23 @@ def add_question_categories(topic, category_key):
     :parameter category_key The key to the category section, 'Attribute Category', 'Line Attribute Category'
     """
     question_category_topic = dict()
-    if category_key in config.shape_dict:
-        for question_category in config.shape_dict[category_key]:
+    if constants.json_keys['attribute_category'] in json_object.keys():
+        question_categories = json_object[constants.json_keys['attribute_category']]
+        for question_category in question_categories:
             item = topic.addSubTopic()
             item.setTitle(question_category['NAME'])
             item.addMarker(markers[question_category['TYPE']])
+            if 'LABEL' in question_category.keys():
+                item.addLabel(question_category['LABEL'])
             question_category_topic[question_category['NAME']] = item
     return question_category_topic
 
 
-def add_coverage_categories(shape_dict, topic, category_key):
+def add_coverage_categories(topic, json_object):
     coverage_category_topic = dict()
-    if category_key in shape_dict:
-        for coverage_category in shape_dict[category_key]:
+    if constants.json_keys['coverage_category'] in json_object.keys():
+        coverage_categories = json_object[constants.json_keys['coverage_category']]
+        for coverage_category in coverage_categories:
             item = topic.addSubTopic()
             item.setTitle(coverage_category['NAME'])
             item.addMarker(markers[coverage_category['TYPE']])
@@ -66,7 +77,7 @@ def add_coverage_categories(shape_dict, topic, category_key):
     return coverage_category_topic
 
 
-def add_dropdown(attribute, item):
+def add_dropdown(attribute, item, json_object):
     if 'LIST' in attribute.keys():
         dropdown_name = attribute['LIST']
     else:
@@ -86,18 +97,19 @@ def add_dropdown(attribute, item):
                 item_option.addMarker(markers['text'])
             if 'LABEL' in dropdown_value.keys():
                 item_option.addLabel(dropdown_value['LABEL'])
-            extract_related(config.shape_dict, attribute['NAME'], dropdown_value['NAME'], item_option)
+            extract_related(json_object, attribute['NAME'], dropdown_value['NAME'], item_option)
         else:
             item_option = item.addSubTopic()
             item_option.setTitle(dropdown_value)
             item_option.addMarker(markers['text'])
-            extract_related(config.shape_dict, attribute['NAME'], dropdown_value, item_option)
+            extract_related(json_object, attribute['NAME'], dropdown_value, item_option)
 
 
-def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
-    if 'CATEGORY' in attribute:
+def add_attribute(attribute, topic, json_object, question_category_topic=None):
+    if constants.json_keys['category'] in attribute.keys():
         if question_category_topic is not None:
-            copy_topic = question_category_topic[attribute['CATEGORY']]
+            if constants.json_keys['category'] in attribute.keys():
+                copy_topic = question_category_topic[attribute[constants.json_keys['category']]]
         else:
             copy_topic = topic
     else:
@@ -108,16 +120,16 @@ def add_attribute(attribute, topic, shape_dict, question_category_topic=None):
     item.addMarker(markers[attribute['TYPE']])
     if 'LABEL' in attribute.keys():
         item.addLabel(attribute['LABEL'])
-    if 'ATTRIBUTES' in attribute.keys():
-        for attribute_attribute in attribute['ATTRIBUTES']:
-            add_attribute(attribute_attribute, item, config.shape_dict)
+    if constants.json_keys['attributes'] in attribute.keys():
+        for attribute_attribute in attribute[constants.json_keys['attributes']]:
+            add_attribute(attribute_attribute, item, json_object)
 
     if attribute['TYPE'] == 'dropdown':
-        add_dropdown(attribute, item)
+        add_dropdown(attribute, item, json_object)
     return item
 
 
-def add_xmind_coverages(coverages, topic, category_key='Coverage Category'):
+def add_xmind_coverages(coverages, json_object, topic):
     """Create the coverages in the mind map
 
     Coverages should belong to a category, and they are created first, once
@@ -130,37 +142,39 @@ def add_xmind_coverages(coverages, topic, category_key='Coverage Category'):
     :parameter topic (topic) The base topic to attach the coverages to
     :parameter category_key The dictionary key for the coverage categories
     """
-    coverage_categories = add_coverage_categories(config.shape_dict, topic, category_key)
-    for coverage in coverages:
-        if 'CATEGORY' in coverage:
-            topic_to_use = coverage_categories[coverage['CATEGORY']]
-        else:
-            topic_to_use = topic
-        new_coverage = topic_to_use.addSubTopic()
-        new_coverage.setTitle(coverage['NAME'])
-        new_coverage.addMarker(markers['coverage'])
-        if 'LABEL' in coverage.keys():
-            new_coverage.addLabel(coverage['LABEL'])
+    if constants.json_keys['coverage_category'] in json_object.keys():
+        coverage_categories = add_coverage_categories(topic, json_object)
+        for coverage in coverages:
+            if 'CATEGORY' in coverage:
+                topic_to_use = coverage_categories[coverage['CATEGORY']]
+            else:
+                topic_to_use = topic
+            new_coverage = topic_to_use.addSubTopic()
+            new_coverage.setTitle(coverage['NAME'])
+            new_coverage.addMarker(markers['coverage'])
+            if 'LABEL' in coverage.keys():
+                new_coverage.addLabel(coverage['LABEL'])
 
-        if 'TERMS' in coverage.keys():
-            for term in coverage['TERMS']:
-                new_term = add_attribute(term, new_coverage, config.shape_dict)
+            if 'TERMS' in coverage.keys():
+                for term in coverage['TERMS']:
+                    new_term = add_attribute(term, new_coverage, json_object)
 
-                if 'ATTRIBUTES' in term.keys():
-                    for term_attribute in term['ATTRIBUTES']:
-                        add_attribute(term_attribute, new_term, config.shape_dict)
+                    if 'ATTRIBUTES' in term.keys():
+                        for term_attribute in term['ATTRIBUTES']:
+                            add_attribute(term_attribute, new_term, json_object)
+    else:
+        wise_monkey_says_oops(f'Coverages must have a category and none are defined for {json_object["NAME"]}')
 
 
-def extract_related(shape_dict, parent, link, topic):
-    if 'Related' not in shape_dict.keys():
-        return
-    related = shape_dict['Related']
-    attributes = shape_dict['Attributes']
-    for relationship in related:
-        if relationship['PARENT'] == parent and relationship['LINK'] == link:
-            for attribute in attributes:
-                if attribute['NAME'] == relationship['CHILD']:
-                    add_attribute(attribute, topic, config.shape_dict)
+def extract_related(json_object, parent, link, topic):
+    if constants.json_keys['related'] in json_object.keys():
+        related = json_object[constants.json_keys['related']]
+        attributes = json_object[constants.json_keys['attributes']]
+        for relationship in related:
+            if relationship['PARENT'] == parent and relationship['LINK'] == link:
+                for attribute in attributes:
+                    if attribute['NAME'] == relationship['CHILD']:
+                        add_attribute(attribute, topic, json_object)
 
 
 def wise_monkey_says(message):

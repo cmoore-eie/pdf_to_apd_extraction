@@ -1,5 +1,15 @@
 version_number = '0.4'
 
+json_keys = dict()
+json_keys['attributes'] = 'ATTRIBUTES'
+json_keys['related'] = 'RELATED'
+json_keys['attribute_category'] = 'ATTRIBUTE_CATEGORY'
+json_keys['coverage_category'] = 'COVERAGE_CATEGORY'
+json_keys['coverages'] = 'COVERAGES'
+json_keys['risk_objects'] = 'RISK_OBJECTS'
+json_keys['category'] = 'CATEGORY'
+json_keys['line'] = "LINE"
+
 #
 # When coverage words are to be removed it will check against this list and not add the name to the label of the
 # topic

@@ -19,12 +19,6 @@ Please supply the arguments for -c
         '''
 
 
-def print_logo():
-    f = open('logo.py', 'r')
-    print(''.join([line for line in f]))
-    print(f"Version - {constants.version_number}")
-
-
 def main(argv):
     config.start_process_time = time.perf_counter()
     print(logo.logo_image)

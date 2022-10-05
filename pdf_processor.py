@@ -150,7 +150,7 @@ def process():
         config.is_regular_product = True
     else:
         config.is_regular_product = False
-    if not ('input_document' in config.config_dict['Base Information']):
+    if not ('input_document' in config.config_dict['Base Information']) and not config.is_regular_product:
         wise_monkey_says(f'No Input file given, generating only the shape for {config.product_shape}')
         coverages = dict()
     elif config.is_regular_product:
@@ -165,7 +165,7 @@ def process():
             wise_monkey_says(f'We will try again after you correct the configuration file')
             sys.exit(1)
     else:
-        nlp = spacy.load("en_core_web_sm")
+        nlp = spacy.load("en_core_web_md")
         spacy_punctuation = spacy.lang.en.punctuation
         phrase_coverages, doc = apply_phrase_rules(nlp)
         write_tokens(doc)

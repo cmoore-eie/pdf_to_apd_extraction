@@ -3,6 +3,7 @@ from datetime import date
 import xmind
 
 import config
+import constants
 import product_shape_regular
 from constants import markers
 import product_shape_private_motor
@@ -134,15 +135,17 @@ def build_sheet(sheet1, coverages):
 
     line_attribute = line.addSubTopic()
     line_attribute.setTitle("Attributes")
+    if constants.json_keys['line'] in config.shape_dict.keys():
+        json_line_object = config.shape_dict[constants.json_keys['line']]
+        if constants.json_keys['attributes'] in json_line_object.keys():
+            add_xmind_attributes(line_attribute, json_line_object)
 
-    if 'Line Attributes' in config.shape_dict.keys():
-        add_xmind_attributes(line_attribute, 'Line Attributes', 'Line Attribute Category')
+        line_coverage = line.addSubTopic()
+        line_coverage.setTitle("Coverages")
 
-    line_coverage = line.addSubTopic()
-    line_coverage.setTitle("Coverages")
-
-    if 'Line Coverages' in config.shape_dict.keys():
-        add_xmind_coverages(config.shape_dict['Line Coverages'], line_coverage, 'Line Coverage Category')
+        if constants.json_keys['coverages'] in json_line_object.keys():
+            coverages = json_line_object[constants.json_keys['coverages']]
+            add_xmind_coverages(coverages, json_line_object, line_coverage)
 
     line_exclusions = line.addSubTopic()
     line_exclusions.setTitle("Exclusions")

@@ -1,4 +1,5 @@
 import config
+import constants
 from constants import markers
 from product_shapes import shape_to_dict
 from utility import add_xmind_attributes, add_xmind_coverages
@@ -7,12 +8,12 @@ from utility import add_xmind_attributes, add_xmind_coverages
 def apply_shape(line, coverages):
     product_shape = config.config_dict['Product Information']['product_shape']
     shape_to_dict(product_shape)
-    for attribute in config.shape_dict['Risk Object']:
+    for json_risk_object in config.shape_dict[constants.json_keys['risk_objects']]:
         risk_object = line.addSubTopic()
-        risk_object.setTitle(attribute['NAME'])
-        risk_object.addMarker(markers[attribute['TYPE']])
-        if 'LABEL' in attribute.keys():
-            risk_object.addLabel(attribute['LABEL'])
+        risk_object.setTitle(json_risk_object['NAME'])
+        risk_object.addMarker(markers[json_risk_object['TYPE']])
+        if 'LABEL' in json_risk_object.keys():
+            risk_object.addLabel(json_risk_object['LABEL'])
 
         risk_object_notes = risk_object.addSubTopic()
         risk_object_notes.setTitle("Notes")
@@ -21,7 +22,8 @@ def apply_shape(line, coverages):
         risk_object_attribute = risk_object.addSubTopic()
         risk_object_attribute.setTitle("Attributes")
 
-        add_xmind_attributes(risk_object_attribute)
+        if constants.json_keys['attributes'] in json_risk_object.keys():
+            add_xmind_attributes(risk_object_attribute, json_risk_object)
 
         risk_object_coverage = risk_object.addSubTopic()
         risk_object_coverage.setTitle("Coverages")
@@ -38,4 +40,4 @@ def apply_shape(line, coverages):
         risk_object_conditions_category.setTitle("Standard Conditions")
         risk_object_conditions_category.addMarker(markers['clause_category'])
 
-        add_xmind_coverages(coverages, risk_object_coverage)
+        add_xmind_coverages(coverages, json_risk_object, risk_object_coverage)
