@@ -1,0 +1,51 @@
+{
+  "LINE": {
+    "ATTRIBUTES": [],
+    "ATTRIBUTE_CATEGORY": [],
+    "COVERAGE_CATEGORY": [
+    ]
+  },
+  "RISK_OBJECTS": [
+    {"NAME": "Animals", "TYPE": "risk_object", "LABEL":  "Animals",
+      "ATTRIBUTES": [
+        {"NAME": "Pigs", "TYPE": "exposure", "LABEL": "Pigs", "ATTRIBUTES": [
+          {"NAME": "Group ID", "LABEL": "GroupID", "TYPE": "text"},
+          {"NAME": "Description", "LABEL": "Description", "TYPE": "text"},
+          {"NAME": "Number in the Group", "LABEL": "NumberInGroup", "TYPE": "number"},
+          {"NAME": "Where is the pig housed", "TYPE": "text"},
+          {"NAME": "ID from the Animal register where the herd is stabled.", "TYPE": "text"},
+          {"NAME": "Type of Herd", "TYPE": "text"},
+          {"NAME": "Buy and Breed ", "TYPE": "text"},
+          {"NAME": "How many pigs are sent to Slaughterhouse", "TYPE": "text"},
+          {"NAME": "Health status of Pig herd", "TYPE": "text"},
+          {"NAME": "Value (calc)", "TYPE": "text"},
+          {"NAME": "Pig Coverages", "TYPE": "text"},
+          {"NAME": "Group Information", "TYPE": "text"}
+        ]},
+        {"NAME": "Cattle ", "LABEL": "Cattle ", "TYPE": "exposure", "ATTRIBUTES": [
+          {"NAME": "Group ID", "LABEL": "GroupID", "TYPE": "text"},
+          {"NAME": "Used for", "TYPE": "text"},
+          {"NAME": "Ear tag number", "TYPE": "text"},
+          {"NAME": "ID from the Animal register where the herd is stabled.", "TYPE": "text"},
+          {"NAME": "Description", "TYPE": "text"},
+          {"NAME": "Number in the group", "TYPE": "text"},
+          {"NAME": "For Dairy cattle", "TYPE": "text"},
+          {"NAME": "Type of breed", "TYPE": "text"},
+          {"NAME": "How many cows do you breed per annum", "TYPE": "text"},
+          {"NAME": "Value (calc)", "TYPE": "text"},
+          {"NAME": "Covers", "TYPE": "text"},
+          {"NAME": "Percentage of cows that are free range/Friland", "TYPE": "text"}
+        ]},
+        {"NAME": "Poultry ", "LABEL": "Poultry ", "TYPE": "exposure", "ATTRIBUTES": [
+          {"NAME": "Group ID", "LABEL": "GroupID", "TYPE": "text"}
+        ]},
+        {"NAME": "Horses ", "LABEL": "Horses ", "TYPE": "exposure", "ATTRIBUTES": [
+          {"NAME": "Group ID", "LABEL": "GroupID", "TYPE": "text"}
+        ]},
+        {"NAME": "Other types of animals ", "LABEL": "Other ", "TYPE": "exposure"}
+      ]
+    },
+    {"NAME": "Machines", "TYPE": "risk_object", "LABEL":  "Machines"},
+    {"NAME": "Stocks and Crops", "TYPE": "risk_object", "LABEL":  "StocksCrops"}
+    ]
+  }

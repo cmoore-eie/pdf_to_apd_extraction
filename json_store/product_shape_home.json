@@ -1,4 +1,10 @@
 {
+  "LINE": {
+    "ATTRIBUTES": [],
+    "ATTRIBUTE_CATEGORY": [],
+    "COVERAGE_CATEGORY": [
+    ]
+  },
   "RISK_OBJECTS": [
     {"NAME": "Structure", "TYPE": "risk_object", "LABEL":  "BuildingStructure",
       "ATTRIBUTES": [

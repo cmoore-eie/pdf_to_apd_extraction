@@ -4,20 +4,20 @@
     "ATTRIBUTE_CATEGORY": [],
     "COVERAGE_CATEGORY": [
       {"NAME": "Liability Clauses", "TYPE": "clause_category", "LABEL": "LiabilityCC"}
-  ],
-  "COVERAGES": [
-    {"NAME": "Public Liability", "CATEGORY": "Liability Clauses", "LABEL": "PublicLiabCov", "TERMS": [
-      {"NAME": "Limit", "TYPE": "dropdown", "LABEL": "PersLiabLimit", "OPTIONS": [
-        {"NAME": "500000", "TYPE": "money", "LABEL": "FiveHundredMille"},
-        {"NAME": "1000000", "TYPE": "money", "LABEL": "OneMillion"},
-        {"NAME": "1500000", "TYPE": "money", "LABEL": "OneAndHalfMillion"},
-        {"NAME": "2000000", "TYPE": "money", "LABEL": "TwoMillion"}
-      ]}
-    ]},
-    {"NAME": "Domestic Employers Liability", "CATEGORY": "Liability Clauses", "LABEL": "DomEmplLiabCov", "TERMS": [
-      {"NAME": "Indemnity Limit", "TYPE": "dropdown", "LABEL": "EmpLiabIndemLimit", "OPTIONS": [
-        {"NAME": "1,000,000", "LABEL": "TenMillion"}
+    ],
+    "COVERAGES": [
+      {"NAME": "Public Liability", "CATEGORY": "Liability Clauses", "LABEL": "PublicLiabCov", "TERMS": [
+        {"NAME": "Limit", "TYPE": "dropdown", "LABEL": "PersLiabLimit", "OPTIONS": [
+          {"NAME": "500000", "TYPE": "money", "LABEL": "FiveHundredMille"},
+          {"NAME": "1000000", "TYPE": "money", "LABEL": "OneMillion"},
+          {"NAME": "1500000", "TYPE": "money", "LABEL": "OneAndHalfMillion"},
+          {"NAME": "2000000", "TYPE": "money", "LABEL": "TwoMillion"}
+        ]}
       ]},
+      {"NAME": "Domestic Employers Liability", "CATEGORY": "Liability Clauses", "LABEL": "DomEmplLiabCov", "TERMS": [
+        {"NAME": "Indemnity Limit", "TYPE": "dropdown", "LABEL": "EmpLiabIndemLimit", "OPTIONS": [
+          {"NAME": "1,000,000", "LABEL": "TenMillion"}
+        ]},
       {"NAME": "Employment Information", "TYPE": "risk_object", "LABEL": "EmployInfor","ATTRIBUTES": [
         {"NAME": "Employee Type", "TYPE": "dropdown", "LABEL": "EmplType", "OPTIONS": [
           {"NAME": "Housekeepers", "LABEL": "Housekeepers"},
