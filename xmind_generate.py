@@ -4,10 +4,8 @@ import xmind
 
 import config
 import constants
-import product_shape_regular
+import product_shapes
 from constants import markers
-import product_shape_private_motor
-import product_shape_home
 from product_shapes import shape_to_dict
 from utility import add_xmind_attributes, add_xmind_coverages
 
@@ -30,17 +28,18 @@ def standard_terms(coverage):
 
 
 def apply_product_shape(line, coverages):
-    if config.product_shape_lower == 'home':
-        product_shape_home.apply_shape(line, coverages)
-        return
-    if config.product_shape_lower == 'private motor':
-        product_shape_private_motor.apply_shape(line, coverages)
-        return
-    if config.is_regular_product:
-        product_shape_regular.apply_shape(line)
-        return
-
-    apply_standard_product_shape(line, coverages)
+    product_shapes.apply_shape(line, coverages)
+    # if config.product_shape_lower == 'home':
+    #     product_shape_home.apply_shape(line, coverages)
+    #     return
+    # if config.product_shape_lower == 'private motor':
+    #     product_shape_private_motor.apply_shape(line, coverages)
+    #     return
+    # if config.is_regular_product:
+    #     product_shape_regular.apply_shape(line)
+    #     return
+    #
+    # apply_standard_product_shape(line, coverages)
 
 
 def apply_standard_product_shape(line, coverages):
