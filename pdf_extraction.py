@@ -66,6 +66,17 @@ def main(argv):
             wise_monkey_says('You forgot to tell me where the json files can be found')
             wise_monkey_says('if you set the json_store in the configuration file we can try again')
             sys.exit(1)
+
+        config.product_shape = config.config_dict['Product Information']['product_shape']
+        config.product_shape_lower = config.product_shape.lower()
+        if config.product_shape_lower == 'regular':
+            config.is_regular_product = True
+            config.regular_product = config.config_dict['Product Information']['regular_product']
+            config.regular_product_lower = config.regular_product.lower()
+        else:
+            config.is_regular_product = False
+            wise_monkey_says(f'Looks like we will be working on the {config.product_shape} product')
+
         pdf_processor.process()
         config.end_process_time = time.perf_counter()
         elapsed = config.end_process_time - config.start_process_time

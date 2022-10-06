@@ -48,9 +48,11 @@ def read_document(nlp):
     :param nlp The loaded nlp object
     :return spaCy Doc
     """
-    wise_monkey_says('Reading Document, this will take but a moment')
-    wise_monkey_says('... Performing first pass to convert PDF to text')
     input_document = config.config_dict['Base Information']['input_document']
+    wise_monkey_says(f'Reading Document from {input_document}')
+    wise_monkey_says(f'Please be patient, this will take but a moment')
+    wise_monkey_says('... Performing first pass to convert PDF to text')
+
 
     doc = pdf_reader(input_document, nlp)
 
@@ -144,12 +146,6 @@ def process():
     If a regular mind map is to be generated the regular product defined in the
     configuration file will be used to construct the mind map.
     """
-    config.product_shape = config.config_dict['Product Information']['product_shape']
-    config.product_shape_lower = config.product_shape.lower()
-    if config.product_shape_lower == 'regular':
-        config.is_regular_product = True
-    else:
-        config.is_regular_product = False
     if not ('input_document' in config.config_dict['Base Information']) and not config.is_regular_product:
         wise_monkey_says(f'No Input file given, generating only the shape for {config.product_shape}')
         coverages = dict()
